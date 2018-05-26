@@ -1,55 +1,75 @@
 using namespace std;
-#include "IniReg.h"
-#include "ControlDatos.h"
-#include "MenuP.h"
-#include "Persona.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <string.h>
+//#include "IniReg.h"
+//#include "ControlDatos.h"
+//#include "MenuP.h"
+#include "persona.h"
+#include "administrador.h"
+#include "usuario.h"
+#include <iostream>
+#include <vector>
+#include <string>
+
+
 
 int IniciarSesion()
 {
+	string aux;
 	int control1,control2;	
-	Usuario* users;
-	Administrador* admins;
-	Persona pers;
+	vector <Usuario> users;
+	vector <Administrador> admins;
+	Persona pers("a","a","a","a",1);
+
+Usuario userspr ("a","a","a","a",3) ;
+Administrador adminspr ("a","a","a","a",3, "aaaaaa");
+
+users.push_back(userspr);
+users.push_back(userspr);
+users.push_back(userspr);
+users.push_back(userspr);
+users.push_back(userspr);
+
+admins.push_back(adminspr);
+admins.push_back(adminspr);
+admins.push_back(adminspr);
 
 	cout << "Has decidido iniciar sesion," << endl;
 	cout <<"Inserte el nick: "<< endl;
-	//LeerValor(pers.nick,14);
-	cout <<"Inserte la contrasena: " zz endl;
-	//LeerValor(pers.contra,14);
+
+	cin >> aux;
+	pers.setnick(aux);
+
+	cout <<"Inserte la contrasena: " << endl;
+	cin>>aux;
+	 pers.setcontra(aux);
+
 	//users=LeerUsuariosBin(&control1);
 	//admins=LeerAdministradoresBin(&control2);
-	for(int i=0;control1>i;i++)
+
+	for(int i=0;users.size()>i;i++)
 	{
-		if(strcmp(users[i].pers.nick,pers.nick)==0&&strcmp(users[i].pers.contra,pers.contra)==0)
+		if((users[i].getnick().compare(pers.getnick()))==0&&(users[i].getcontra().compare(pers.getcontra()))==0)
 		{
-			if(users[i].bloq)
+			if(users[i].getbloq())
 			{
 				cout << "Lo siento, ha sido bloqueado indefinidamente." << endl;
 				return 0;
 			}
-			free(users);
-			free(admins);
-			return MenuU(users[i]);
+			//return MenuU(users[i]);
+			cout<< "funsiona papu!!";
 		}
 	}
-	for(int i=0;control2>i;i++)
+	for(int i=0;admins.size()>i;i++)
 	{
-		if(strcmp(admins[i].pers.nick,pers.nick)==0&&strcmp(admins[i].pers.contra,pers.contra)==0)
+		if((admins[i].getnick().compare(pers.getnick()))==0&&(admins[i].getcontra().compare(pers.getcontra()))==0)
 		{
-			free(users);
-			free(admins);
-			return MenuA(admins[i]);
+			
+			//return MenuA(admins[i]);
 		}
 	}
-	free(users);
-	free(admins);
+	
 	return -1;
 }
-
+/*
 int Registrar()
 {
 	Usuario* users;
@@ -259,4 +279,6 @@ int LeerValorInt(int* h)
 			return -1;
 		}
   	}
+
 }
+*/

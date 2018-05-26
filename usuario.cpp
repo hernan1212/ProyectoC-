@@ -27,3 +27,13 @@ void Usuario::MostrarUsuario()
 	
 	}
 }
+
+bool Usuario::getbloq()
+{
+	return this-> bloq;
+
+}
+void Usuario::setbloq(bool bloq)
+{
+	 this-> bloq=bloq;
+}

@@ -13,6 +13,8 @@ public:
 	Usuario(const Usuario &u);
 	virtual ~Usuario();
 
+	bool getbloq();
+	void setbloq(bool bloq);
 	void MostrarUsuario();
 };
 #endif
