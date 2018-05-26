@@ -16,6 +16,7 @@ using namespace std;
 	public:
 		Persona(string nick, string contra, string nombre, string apellido, int edad);
 		Persona(const Persona &p);
+		Persona();
 		virtual ~Persona();
 
 		string getnick();

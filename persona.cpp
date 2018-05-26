@@ -13,7 +13,7 @@ Persona::Persona(string nick, string contra, string nombre, string apellido, int
 	this->edad = edad;
 }
 
-Persona::Persona(const Persona& p)
+Persona::Persona(const Persona &p)
 {
 	this->nick = p.nick;
 	this->contra = p.contra;
@@ -21,7 +21,14 @@ Persona::Persona(const Persona& p)
 	this->apellido = p.apellido;
 	this->edad = p.edad;
 }
-
+Persona::Persona()
+{
+	this->nick = "";
+	this->contra = "";
+	this->nombre = "";
+	this->apellido = "";
+	this->edad = 0;
+}
 Persona::~Persona(){}
 
 string Persona::getnick()
