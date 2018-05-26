@@ -1,7 +1,8 @@
 #ifndef _INIREG_H_
 #define _INIREG_H_
+#include <string>		
 int IniciarSesion();
 //int Registrar();
-//int LeerValor(char* h, int lenMax);
-//int LeerValorInt(int* h);
+string LeerValor();
+int LeerValorInt(int i, int s);
 #endif

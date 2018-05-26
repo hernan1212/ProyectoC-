@@ -1,5 +1,5 @@
 using namespace std;
-//#include "IniReg.h"
+#include "iniReg.h"
 //#include "ControlDatos.h"
 //#include "MenuP.h"
 #include "persona.h"
@@ -14,33 +14,27 @@ using namespace std;
 int IniciarSesion()
 {
 	string aux;
-	int control1,control2;	
 	vector <Usuario> users;
 	vector <Administrador> admins;
 	Persona pers("a","a","a","a",1);
 
 Usuario userspr ("a","a","a","a",3) ;
 Administrador adminspr ("a","a","a","a",3, "aaaaaa");
-
 users.push_back(userspr);
-users.push_back(userspr);
-users.push_back(userspr);
-users.push_back(userspr);
-users.push_back(userspr);
-
-admins.push_back(adminspr);
-admins.push_back(adminspr);
 admins.push_back(adminspr);
 
 	cout << "Has decidido iniciar sesion," << endl;
-	cout <<"Inserte el nick: "<< endl;
 
-	cin >> aux;
+	cout <<"Inserte el nick: "<< endl;
+	aux=LeerValor();
 	pers.setnick(aux);
 
 	cout <<"Inserte la contrasena: " << endl;
-	cin>>aux;
-	 pers.setcontra(aux);
+	aux=LeerValor();
+	pers.setcontra(aux);
+
+
+int wololo =LeerValorInt(0,100);
 
 	//users=LeerUsuariosBin(&control1);
 	//admins=LeerAdministradoresBin(&control2);
@@ -69,7 +63,8 @@ admins.push_back(adminspr);
 	
 	return -1;
 }
-/*
+
+/* 
 int Registrar()
 {
 	Usuario* users;
@@ -80,9 +75,8 @@ int Registrar()
 	
 	cout << "Has decidido registrarte," <<endl;
 	cout << "Elige una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. "<< endl ;
-	while(LeerValorInt(&opcionRegistro)==-1||(opcionRegistro<1||opcionRegistro>2))
+	while(!(cin.fail()==0)||(opcionRegistro<1||opcionRegistro>2))
 	{
-		cout << " Te has confundido. Vuelve a elegir una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. " << endl;
 	}
 	//users=LeerUsuariosBin(&control1);
 	//admins=LeerAdministradoresBin(&control2);
@@ -242,43 +236,39 @@ int Registrar()
 		return MenuA(admin);
 	}
 }
-
-int LeerValor(char * h, int lenMax)
-{
-	char* line=NULL;
-	size_t len = 0;
-	ssize_t read;
-
-	while((read = getline(&line, &len, stdin))) 
-	{
-		if(strlen(line)>(lenMax+1)||strcmp(line,"\n")==0)
-		{	
-   			return -1;
-		}
-		else
-		{
-			sscanf(line, "%s", h);
-			return 0;
-		}
-  	}
-}
-int LeerValorInt(int* h)
-{
-	char* line=NULL;
-	size_t len = 0;
-	ssize_t read;
-
-	while((read = getline(&line, &len, stdin))) 
-	{
-		if(sscanf(line, "%i", h)==1)
-		{	
-   			return 0;
-		}
-		else
-		{
-			return -1;
-		}
-  	}
-
-}
 */
+string LeerValor()
+{
+	string s;
+do
+{
+cin >>s;
+
+if(0>s.size() || s.size()>14)
+{
+cout << "el tamano es incorrecto, (maximo 14 letras) intentalo de neuvo"<< endl;
+}
+
+}
+while(0>s.size() || s.size()>14);
+ 
+ return s;
+}
+
+int LeerValorInt(int i, int s)
+{
+	int aux;
+		cout << "introduce un numero entre " << i << "y"<< s << endl;
+	cin>>aux;
+
+
+		while(!(cin.fail()==0) || aux>s || aux<i)
+		{
+			cout << "introduce solo numeros comprendidos entre" << i << " y " << s << endl;
+			cin.clear();
+			cin.ignore(256,'\n');
+			cin>>aux;
+		}
+
+return aux;
+}
