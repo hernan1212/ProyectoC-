@@ -22,6 +22,14 @@ Juego::Juego(const Juego &j)
 	this->precio = j.precio;
 }
 
+Juego::Juego()
+{
+	this->nombre = "";
+	this->genero = "";
+	this->ejecutable = "";
+	this->precio = 0;
+}
+
 Juego::~Juego()
 {
 }

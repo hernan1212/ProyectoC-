@@ -17,6 +17,7 @@ public:
 
 	Juego(Persona creador, string nombre, string genero, string ejecutable, int precio);
 	Juego(const Juego &j);
+	Juego();
 	virtual ~Juego();
 
 	Persona getCreador();
