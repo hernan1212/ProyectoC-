@@ -2,6 +2,7 @@
 using namespace std;
 #include "persona.h"
 #include "juego.h"
+#include "iniReg.h"
 
 int main(void)
 {
@@ -10,22 +11,12 @@ int opcion,resultado;
 do
 	{
 		cout <<"Introduce una opcion que desea hacer y recuerda que si no tienes una cuenta debes registrarte: \n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir." << endl ;
-		cin>>opcion;
 
-		while(!(cin.fail()==0))
-		{
-			
-			
-			cout << "Error! No es un numero o no es un numero adecuado!\n Introduce una opcion y recuerda que si no tienes una cuenta debes registrarte:\n 1.- Iniciar sesion. \n 2.- Registrarse. \n 3.- Salir." << endl ;
-			cin.clear();
-			cin.ignore(256,'\n');
-			cin>>opcion;
-		}
-		
+		opcion=LeerValorInt(1,3);
 		switch(opcion)
 		{
 			case 1:
-				//resultado=IniciarSesion();
+				resultado=IniciarSesion();
 				if(resultado==1)
 				{
 					opcion=3;
@@ -39,7 +30,7 @@ do
 				}
 				break;
 			case 2:
-				//resultado=Registrar();
+				resultado=Registrar();
 				if(resultado==1)
 				{
 					opcion=3;

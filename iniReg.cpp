@@ -8,6 +8,7 @@ using namespace std;
 #include <iostream>
 #include <vector>
 #include <string>
+#include <stdexcept>
 
 
 
@@ -16,7 +17,7 @@ int IniciarSesion()
 	string aux;
 	vector <Usuario> users;
 	vector <Administrador> admins;
-	Persona pers("a","a","a","a",1);
+	Persona pers;
 
 Usuario userspr ("a","a","a","a",3) ;
 Administrador adminspr ("a","a","a","a",3, "aaaaaa");
@@ -26,15 +27,15 @@ admins.push_back(adminspr);
 	cout << "Has decidido iniciar sesion," << endl;
 
 	cout <<"Inserte el nick: "<< endl;
-	aux=LeerValor();
+	aux=LeerValor(1,14);
 	pers.setnick(aux);
 
 	cout <<"Inserte la contrasena: " << endl;
-	aux=LeerValor();
+	aux=LeerValor(1,14);
 	pers.setcontra(aux);
 
 
-int wololo =LeerValorInt(0,100);
+
 
 	//users=LeerUsuariosBin(&control1);
 	//admins=LeerAdministradoresBin(&control2);
@@ -64,50 +65,54 @@ int wololo =LeerValorInt(0,100);
 	return -1;
 }
 
-/* 
+
 int Registrar()
 {
-	Usuario* users;
-	Administrador* admins;
-	Persona pers;
-	int opcionRegistro,control1,control2;
+	vector <Usuario> users;
+	vector <Administrador> admins;
+	Persona pers("per","a","a","a",1);
+
+	int opcionRegistro;
 	bool bienhecho;
 	
-	cout << "Has decidido registrarte," <<endl;
-	cout << "Elige una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. "<< endl ;
-	while(!(cin.fail()==0)||(opcionRegistro<1||opcionRegistro>2))
-	{
-	}
+
+	Usuario auxusu("usu","a","a","a",3) ;
+	Administrador auxadmin ("adm","a","a","a",3, "aaaaaa");
+	
+	users.push_back(auxusu);
+	admins.push_back(auxadmin);
+
 	//users=LeerUsuariosBin(&control1);
 	//admins=LeerAdministradoresBin(&control2);
 
+
+	cout << "Has decidido registrarte," <<endl;
+	cout << "Elige una opcion:\n 1.- Si deseas registrarte como un usuario. \n 2.- Si deseas registrarte como un administrador. "<< endl ;
+	opcionRegistro=LeerValorInt(1,2);
+
 	if(opcionRegistro==1)
 	{
-		Usuario usu;
+		Usuario usu ;
 		cout << "Has elegido registrarte como un usuario." << endl;
 
 		do
 		{
 			bienhecho=true;
 			cout<<"Inserte el nick del usuario (de 1 a 14 caracteres): "<< endl;
-			if(LeerValor(pers.nick,14)==-1)
-			{
+			usu.setnick(LeerValor(1,14));
 
-				cout << "El nick no es adecuado."<< endl;
-				bienhecho=false;
-			}
-			for(int i=0;control1>i;i++)
+			for(int i=0;users.size()>i;i++)
 			{
-				if(strcmp(pers.nick,users[i].pers.nick)==0)
+				if((usu.getnick().compare(users[i].getnick()))==0)
 				{
 					cout << "El nick ya existe." << endl;
 					bienhecho=false;
 				}
 			}
 
-			for(int i=0;control2>i;i++)
+			for(int i=0;admins.size()>i;i++)
 			{
-				if(strcmp(pers.nick,admins[i].pers.nick)==0)
+				if((usu.getnick().compare(admins[i].getnick()))==0)
 				{
 					cout << "El nick ya existe." << endl;
 					bienhecho=false;
@@ -116,39 +121,26 @@ int Registrar()
 		}while(bienhecho==false);
 
 		cout << "Inserte la contrasena del usuario (de 1 a 14 caracteres): "<< endl;
-		while(LeerValor(pers.contra,14)==-1)
-		{
-			cout << "La contrasena no es adecuada." << endl;
-			cout << "Inserte la contrasena del usuario (de 1 a 14 caracteres): " << endl;
-		}
+		usu.setcontra(LeerValor(1,14));
+
 
 		cout << "Inserte el nombre del usuario (de 1 a 14 caracteres): " << endl;
-		while(LeerValor(pers.nombre,14)==-1)
-		{
-			cout << ("El nombre no es adecuado." << endl;
-			cout << "Inserte el nombre del usuario (de 1 a 14 caracteres): "<< endl;
-		}
+		usu.setnombre(LeerValor(1,14));
 
 		cout << "Inserte el apellido del usuario (de 1 a 14 caracteres): " << endl;
-		while(LeerValor(pers.apellido,14)==-1)
-		{
-			cout << "El apellido no es adecuado." << endl;
-			cout << "Inserte el apellido del usuario (de 1 a 14 caracteres): " << endl;
-		}
+		usu.setapellido(LeerValor(1,14));
 
 		cout << "Inserte la edad del usuario (de 1 a 100 anos): " << endl;
-		while(LeerValorInt(&pers.edad)==-1||pers.edad<1||pers.edad>100)
-		{
-			cout << "La edad no cumple las condiciones."<< endl;
-			cout << "Inserte la edad del usuario (de 1 a 100 anos): "<< endl;
-		}
-		usu.pers=pers;
-		usu.bloq=false;
-		users[control1]=usu;
-		escribirUsuariosBin(users,control1+1);
-		free(users);
-		free(admins);
-		return MenuU(usu);
+		usu.setedad(LeerValorInt(1,100));
+		usu.setbloq(false);
+
+		cout << usu.getedad();
+
+		users.push_back(usu);
+
+		//escribirUsuariosBin(users,control1+1);
+		//return MenuU(usu);
+		return 0;
 	}
 	else if(opcionRegistro)
 	{
@@ -159,23 +151,20 @@ int Registrar()
 		{
 			bienhecho=true;
 			cout << "Inserte el nick del administrador (de 1 a 14 caracteres): " << endl;
-			if(LeerValor(pers.nick,14)==-1)
+			admin.setnick(LeerValor(1,14));
+
+			for(int i=0;users.size()>i;i++)
 			{
-				cout << "El nick no es adecuado." << endl;
-				bienhecho=false;
-			}
-			for(int i=0;control1>i;i++)
-			{
-				if(strcmp(pers.nick,users[i].pers.nick)==0)
+				if(admin.getnick().compare(users[i].getnick())==0)
 				{
 					cout << "El nick ya existe." << endl;
 					bienhecho=false;
 				}
 			}
 
-			for(int i=0;control2>i;i++)
+			for(int i=0;admins.size()>i;i++)
 			{
-				if(strcmp(pers.nick,admins[i].pers.nick)==0)
+				if((admin.getnick().compare(admins[i].getnick()))==0)
 				{
 					cout << "El nick ya existe." << endl;
 					bienhecho=false;
@@ -183,92 +172,90 @@ int Registrar()
 			}
 		}while(bienhecho==false);
 		
-		cout << "Inserte la contrasena del administrador (de 1 a 14 caracteres): " << endl;
-		while(LeerValor(pers.contra,14)==-1)
-		{
-			cout << "La contrasena no es adecuada."<< endl ;
-			cout << "Inserte la contrasena del administrador (de 1 a 14 caracteres):"<< endl ;
-		}
-			
-		cout << "Inserte el nombre del administrador (de 1 a 14 caracteres):"<< endl ;
-		while(LeerValor(pers.nombre,14)==-1)
-		{
-			cout << "El nombre no es adecuado."<< endl ;
-			cout << "Inserte el nombre del administrador (de 1 a 14 caracteres): "<< endl ;
-		}
-			
-		cout << "Inserte el apellido del administrador (de 1 a 14 caracteres):"<< endl ;
-		{
-			cout << "El apellido no es adecuado."<< endl ;
-			cout << "Inserte el apellido del administrador (de 1 a 14 caracteres): "<< endl ;
-		}
-		
-		cout << "Inserte la edad del administrador (de 1 a 100 anos): "<< endl ;
-		while(LeerValorInt(&pers.edad)==-1||pers.edad<1||pers.edad>100)
-		{
-			cout << "La edad no cumple las condiciones."<< endl ;
-			cout << "Inserte la edad del administrador (de 1 a 100 anos): "<< endl ;
-		}
+		cout << "Inserte la contrasena del administrador (de 1 a 14 caracteres): "<< endl;
+		admin.setcontra(LeerValor(1,14));
+
+		cout << "Inserte el nombre del administrador (de 1 a 14 caracteres): " << endl;
+		admin.setnombre(LeerValor(1,14));
+
+		cout << "Inserte el apellido del administrador (de 1 a 14 caracteres): " << endl;
+		admin.setapellido(LeerValor(1,14));
+
+		cout << "Inserte la edad del administrador (de 1 a 100 anos): " << endl;
+		admin.setedad(LeerValorInt(1,100));
 
 		do
 		{
 			bienhecho=true;
 			cout << "Inserte el codigo del administrador (debe tener 5 caracteres): "<< endl ;
-			if(LeerValor(admin.cod_administrador,5)==-1||strlen(admin.cod_administrador)!=5)
+			admin.setcod(LeerValor(5,5));
+
+			for(int i=0;admins.size()>i;i++)
 			{
-				cout << "El codigo de administrador no cumple las condiciones."<< endl ;
-				bienhecho=false;
-			}
-			for(int i=0;control2>i;i++)
-			{
-				if(strcmp(admin.cod_administrador,admins[i].cod_administrador)==0)
+				if((admin.getcod().compare(admins[i].getcod()))==0)
 				{
 					cout << "El codigo de administrador ya existe."<< endl ;
 					bienhecho=false;
 				}
 			}
 		}while(bienhecho==false);
-		admin.pers=pers;
-		admins[control2]=admin;
-		escribirAdministradoresBin(admins,control2+1);
-		free(users);
-		free(admins);
-		return MenuA(admin);
+
+		admins.push_back(admin);
+
+		//escribirAdministradoresBin(admins,control2+1);
+		//return MenuA(admin);
+
+			return 0;
 	}
 }
-*/
-string LeerValor()
+
+string LeerValor(int i, int s)
 {
-	string s;
+	string w;
 do
 {
-cin >>s;
+	getline(cin,w);
 
-if(0>s.size() || s.size()>14)
+if(i>w.size() || w.size()>s)
 {
-cout << "el tamano es incorrecto, (maximo 14 letras) intentalo de neuvo"<< endl;
+cout << "este campo solo acepta palabra que tinen de " << i << " a " << s << " letras"<< endl;
 }
 
 }
-while(0>s.size() || s.size()>14);
+while(i>w.size() || w.size()>s);
  
- return s;
+ return w;
 }
 
 int LeerValorInt(int i, int s)
 {
 	int aux;
-		cout << "introduce un numero entre " << i << "y"<< s << endl;
-	cin>>aux;
+	string aux2;
+	bool control=true;
 
-
-		while(!(cin.fail()==0) || aux>s || aux<i)
+		do
 		{
-			cout << "introduce solo numeros comprendidos entre" << i << " y " << s << endl;
-			cin.clear();
-			cin.ignore(256,'\n');
-			cin>>aux;
+			getline(cin,aux2);
+		try
+		{
+
+
+			aux=stoi(aux2);
+			control=true;
+			if(aux2.length()!=(to_string(aux).length()))
+			{
+				cout << "no se admite carcteres no numericos" << endl;
+				control=false;
+			}
+
 		}
+		catch(...)
+		{
+			cout << "introduce solo numeros comprendidos entre " << i << " y " << s << endl;
+			control=false;
+		}
+
+		 }while( control==false || aux>s || aux<i);
 
 return aux;
 }

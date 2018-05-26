@@ -11,8 +11,11 @@ private:
 public:
 	Administrador(string nick, string contra, string nombre, string apellido, int edad, string cod_administrador);
 	Administrador(const Administrador &a);
+	Administrador();
 	virtual ~Administrador();
 
+	string getcod();
+	void setcod(string cod_administrador);
 	void MostrarAdmin();
 };
 #endif

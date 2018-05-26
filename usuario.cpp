@@ -12,7 +12,10 @@ Usuario::Usuario(const Usuario &a) : Persona(a)
 {
 	this->bloq = a.bloq;
 }
-
+Usuario::Usuario():Persona()
+{
+	this-> bloq=false;
+}
 Usuario::~Usuario(){}
 
 void Usuario::MostrarUsuario()

@@ -11,6 +11,7 @@ private:
 public:
 	Usuario(string nick, string contra, string nombre, string apellido, int edad);
 	Usuario(const Usuario &u);
+	Usuario();
 	virtual ~Usuario();
 
 	bool getbloq();
