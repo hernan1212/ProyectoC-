@@ -10,7 +10,11 @@ PCalc::PCalc(const PCalc &p):Partida(p)
 {
 	this->PuntMax = p.PuntMax;
 }
+ PCalc::PCalc():Partida()
+{
 
+	this->PuntMax=0;
+}
 PCalc::~PCalc()
 {
 }
@@ -19,7 +23,7 @@ int PCalc::getPMax()
 {
 	return this-> PuntMax;
 }
-void PCalc::setPMax(int PartidasJugadas)
+void PCalc::setPMax(int PuntMax)
 {
 	this-> PuntMax = PuntMax;
 }

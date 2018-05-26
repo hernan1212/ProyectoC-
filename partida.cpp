@@ -14,7 +14,12 @@ Partida::Partida(const Partida &p)
 	this->j = p.j;
 	this->PartidasJugadas = p.PartidasJugadas;
 }
+Partida::Partida()
+{
 
+this->PartidasJugadas = 0;
+
+}
 Partida::~Partida()
 {
 }
@@ -48,7 +53,10 @@ void Partida::setPJugadas(int PartidasJugadas)
 {
 	this->PartidasJugadas = PartidasJugadas;
 }
-
+void Partida::jugarPartida()
+{
+	this-> PartidasJugadas++;
+}
 void Partida::MostrarPartida()
 {
 	cout << "Nick de la persona: " << Jugador.getnick() << ",\nNombre del Juego: " << j.getNombre() << ",\nPartidas Jugadas: " << PartidasJugadas << endl;

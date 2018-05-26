@@ -1,7 +1,7 @@
 using namespace std;
 #include "iniReg.h"
 //#include "ControlDatos.h"
-//#include "MenuP.h"
+#include "menuP.h"
 #include "persona.h"
 #include "administrador.h"
 #include "usuario.h"
@@ -49,7 +49,7 @@ admins.push_back(adminspr);
 				cout << "Lo siento, ha sido bloqueado indefinidamente." << endl;
 				return 0;
 			}
-			//return MenuU(users[i]);
+			return MenuU(users[i]);
 			cout<< "funsiona papu!!";
 		}
 	}
@@ -58,7 +58,7 @@ admins.push_back(adminspr);
 		if((admins[i].getnick().compare(pers.getnick()))==0&&(admins[i].getcontra().compare(pers.getcontra()))==0)
 		{
 			
-			//return MenuA(admins[i]);
+			return MenuA(admins[i]);
 		}
 	}
 	
@@ -139,7 +139,7 @@ int Registrar()
 		users.push_back(usu);
 
 		//escribirUsuariosBin(users,control1+1);
-		//return MenuU(usu);
+		return MenuU(usu);
 		return 0;
 	}
 	else if(opcionRegistro)
@@ -203,7 +203,7 @@ int Registrar()
 		admins.push_back(admin);
 
 		//escribirAdministradoresBin(admins,control2+1);
-		//return MenuA(admin);
+		return MenuA(admin);
 
 			return 0;
 	}

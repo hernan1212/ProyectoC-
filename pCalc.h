@@ -9,6 +9,7 @@ private:
 public:
 	PCalc(const Persona Jugador, Juego j, int PartidasJugadas, int PuntMax);
 	PCalc(const PCalc &p);
+	PCalc();
 	virtual ~PCalc();
 
 	int getPMax();

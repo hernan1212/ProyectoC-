@@ -10,7 +10,10 @@ PAhorcado::PAhorcado(const PAhorcado &p):Partida(p)
 {
 	this->PartidasGanadas = p.PartidasGanadas;
 }
-
+PAhorcado::PAhorcado():Partida()
+{
+this-> PartidasGanadas=0;
+}
 PAhorcado::~PAhorcado()
 {
 }
@@ -19,9 +22,13 @@ int PAhorcado::getPGanadas()
 {
 	return this-> PartidasGanadas;
 }
-void PAhorcado::setPGanadas(int PartidasJugadas)
+void PAhorcado::setPGanadas(int PartidasGanadas)
 {
 	this-> PartidasGanadas = PartidasGanadas;
+}
+void PAhorcado::ganarPartida()
+{
+	this->PartidasGanadas++;
 }
 void PAhorcado::MostrarPartida()
 {

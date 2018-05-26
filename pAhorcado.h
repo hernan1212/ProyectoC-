@@ -9,10 +9,13 @@ private:
 public:
 	PAhorcado(const Persona Jugador, Juego j, int PartidasJugadas, int PartidasGanadas);
 	PAhorcado(const PAhorcado &p);
+	PAhorcado();
 	virtual ~PAhorcado();
 
 	int getPGanadas();
 	void setPGanadas(int PartidasJugadas);
+
+	void ganarPartida();
 
 	virtual void MostrarPartida();
 };

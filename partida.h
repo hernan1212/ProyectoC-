@@ -12,6 +12,7 @@
 	public:
 		Partida(const Persona Jugador, Juego j, int PartidasJugadas);
 		Partida(const Partida &p);
+		Partida();
 		virtual ~Partida();
 
 		Persona getJugador();
@@ -22,6 +23,8 @@
 
 		int getPJugadas();
 		void setPJugadas(int PartidasJugadas);
+
+		void jugarPartida();
 
 		virtual void MostrarPartida();
 	};
