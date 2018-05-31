@@ -1,8 +1,10 @@
 using namespace std;
 
+#include <fstream>
 #include <iostream>
 #include <string>
 #include "menuP.h"
+
 //#include "ControlDatos.h"
 //#include "operaciones.h"
 
@@ -320,7 +322,7 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 	bool posible;
 	bool existe;
 	int i;
-	//FILE*f;
+	fstream f;
 	cout <<"Has decidido subir un juego."<< endl;
 	do
 	{
@@ -361,14 +363,13 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 				bienhecho=false;
 			}
 		}
-		/*f = fopen(ju.ejecutable, "rb");
-		if(f == NULL)
+	
+		if(is_file_exist(ju.getEjecutable().c_str()))
 		{
-			cout <<"La direccion no es correcta\n"<< endl;
+			cout <<"La direccion no es correcta"<< endl;
 			existe=false;
 		}
-		fclose(f);
-		*/
+	
 
 	}while(bienhecho==false||existe==false);
 
@@ -457,4 +458,10 @@ void GestionAplicacion(vector <Juego> j, int control1)
  		}
  	}
  }
+
+ bool  is_file_exist(const char *fileName)
+{
+    std::ifstream infile(fileName);
+    return infile.good();
+}
  	
