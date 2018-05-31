@@ -4,13 +4,17 @@
 int main() {
   GestorBD dbConnector("test.sqlite");
 
-  int result = dbConnector.deleteAllUsers();
-    string a;
+  vector<Juego> juegos=dbConnector.returnJuegos();
+
+  string a;
+  int result;
+
+ /* result = dbConnector.deleteAllUsers();
   cin >> a;
   if (result != SQLITE_OK) {
     std::cout << "Error deleting all users" << std::endl;
     return result;
-  }
+  }*/
 
   result = dbConnector.insertNewUser("a","b","c","d", 0);
 
@@ -26,6 +30,7 @@ int main() {
     std::cout << "Error getting all users" << std::endl;
     return result;
   }
+
   /*
   result = dbConnector.dropTable();
   if (result != SQLITE_OK) {

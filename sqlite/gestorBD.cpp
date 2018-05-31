@@ -2,18 +2,41 @@
 #include <stdio.h>
 #include <string.h>
 #include <string>
+#include <vector>
 #include "GestorBD.h"
+#include "usuario.h"
 
 GestorBD::GestorBD(string dbFile) 
 {
-    //int result = sqlite3_open("test.sqlite", &db);
-    int result = sqlite3_open(dbFile.c_str(), &db);
-    if (result != SQLITE_OK) 
-    {
-      std::cout << "Error opening database" << std::endl;
-    }
+  int result = sqlite3_open(dbFile.c_str(), &db);
+  if (result != SQLITE_OK) 
+  {
+    std::cout << "Error opening database" << std::endl;
+  }
     // Crate table country
-    char sql[] = "CREATE TABLE usuario(nick TEXT, contra TEXT, nombre TEXT, apellido TEXT, edad INT);";
+    const char * sql= new char();
+    sql = "CREATE TABLE usuario(nick TEXT, contra TEXT, nombre TEXT, apellido TEXT, edad INT);";
+
+    result = sqlite3_exec(db, sql, 0, 0, NULL);
+
+    sql = "CREATE TABLE administrador(nick TEXT, contra TEXT, nombre TEXT, apellido TEXT, edad INT, cod_administrador TEXT);";
+
+    result = sqlite3_exec(db, sql, 0, 0, NULL);
+
+    sql = "CREATE TABLE Juego(nick TEXT, nombre TEXT, genero TEXT, ejecutable TEXT, precio INT);";
+
+    result = sqlite3_exec(db, sql, 0, 0, NULL);
+
+    sql = "CREATE TABLE Partida(nick TEXT, nombre TEXT, PartidasJugadas INT);";
+
+    result = sqlite3_exec(db, sql, 0, 0, NULL);
+
+    sql = "CREATE TABLE PAhorcado(nick TEXT, nombre TEXT, PartidasJugadas INT, PartidasGanadas INT);";
+
+    result = sqlite3_exec(db, sql, 0, 0, NULL);
+
+    sql = "CREATE TABLE PCalc(nick TEXT, nombre TEXT, PartidasJugadas INT, PuntMax Int);";
+
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
     if (result != SQLITE_OK) {
@@ -46,6 +69,194 @@ GestorBD::GestorBD(string dbFile)
     return SQLITE_OK;
   }
 
+  vector <Usuario> GestorBD::returnUsuarios()
+  {
+    sqlite3_stmt *stmt;
+    vector <Usuario> usus;
+
+    char sql[] = "select nick, contra, nombre, apellido, edad from usuario";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return usus;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char nick[100];
+    char contra[100];
+    char nombre[100];
+    char apellido[100];
+    int edad;
+
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing usuarios" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(contra, (char *) sqlite3_column_text(stmt, 1));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 2));
+    strcpy(apellido, (char *) sqlite3_column_text(stmt, 3));
+    edad = sqlite3_column_int(stmt, 4);
+    Usuario u(nick, contra, nombre, apellido, edad);
+    usus.push_back(u);
+  std::cout << "nick: " << nick << " contra: " << contra << " nombre: " << nombre << " apellido: " << apellido << " edad: " << edad <<std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return usus;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return usus;
+  }
+
+  vector <Administrador> GestorBD::returnAdministradores()
+  {
+    sqlite3_stmt *stmt;
+    vector <Administrador> admins;
+
+    char sql[] = "select nick, contra, nombre, apellido, edad, cod_administrador from administrador";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return admins;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char nick[100];
+    char contra[100];
+    char nombre[100];
+    char apellido[100];
+    char cod_administrador[100];
+    int edad;
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing administradores" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(contra, (char *) sqlite3_column_text(stmt, 1));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 2));
+    strcpy(apellido, (char *) sqlite3_column_text(stmt, 3));
+    edad = sqlite3_column_int(stmt, 4);
+    strcpy(cod_administrador, (char *) sqlite3_column_text(stmt, 5));
+    Administrador a(nick, contra, nombre, apellido, edad, cod_administrador);
+    admins.push_back(a);
+  std::cout << "Nick: " << nick << ", contraseña: " << contra << ", nombre: " << nombre << ", apellido: " << apellido << ", edad: " << edad << ", Codigo administrador: " << cod_administrador << std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return admins;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return admins;
+  }
+
+    vector <Juego> GestorBD::returnJuegos()
+  {
+    sqlite3_stmt *stmt;
+    sqlite3_stmt *stmt2;
+    vector <Juego> juegos;
+
+    string sql = "select nick, nombre, genero, ejecutable, precio from juego";
+
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return juegos;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char* nick;
+    char nombre[100];
+    char genero[100];
+    char ejecutable[100];
+    int precio;
+    char nickP[100];
+    char contraP[100];
+    char nombreP[100];
+    char apellidoP[100];
+    int edad;
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing juegos" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 1));
+    strcpy(genero, (char *) sqlite3_column_text(stmt, 2));
+    strcpy(ejecutable, (char *) sqlite3_column_text(stmt, 3));
+    precio = sqlite3_column_int(stmt, 4);
+    string aux1("select nick from usuario u, administrador a where u.nick="), aux2("|| a.nick=");
+    sql = aux1 + nickP + aux2 + nickP;    
+    result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt2, NULL);
+    strcpy(nickP, (char *) sqlite3_column_text(stmt2, 0));
+    strcpy(contraP, (char *) sqlite3_column_text(stmt2, 1));
+    strcpy(nombreP, (char *) sqlite3_column_text(stmt2, 2));
+    strcpy(apellidoP, (char *) sqlite3_column_text(stmt2, 3));
+    edad = sqlite3_column_int(stmt2, 4);
+    Persona p(nickP, contraP, nombreP, apellidoP, edad);
+
+    Juego j(p, nombre, genero, ejecutable, edad);
+    juegos.push_back(j);
+  std::cout << "Nick: " << nick << ", nombre: " << nombre << ", genero: " << genero << ", ejecutable: " << ejecutable << ", precio: " << precio << std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return juegos;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return juegos;
+  }
+
+
   int GestorBD::showAllUsers() {
     sqlite3_stmt *stmt;
 
@@ -75,9 +286,9 @@ GestorBD::GestorBD(string dbFile)
       result = sqlite3_step(stmt);
       if (result == SQLITE_ROW) {
     strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
-    strcpy(contra, (char *) sqlite3_column_text(stmt, 0));
-    strcpy(nombre, (char *) sqlite3_column_text(stmt, 0));
-    strcpy(apellido, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(contra, (char *) sqlite3_column_text(stmt, 1));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 2));
+    strcpy(apellido, (char *) sqlite3_column_text(stmt, 3));
     edad = sqlite3_column_int(stmt, 4);
 
 	std::cout << "nick: " << nick << " contra: " << contra << " nombre: " << nombre << " apellido: " << apellido << " edad: " << edad <<std::endl;
