@@ -1,17 +1,17 @@
 #include <iostream>
 #include "partida.h"
 
-Partida::Partida(const Persona Jugador, Juego j, int PartidasJugadas)
+Partida::Partida(string JugadorNick, string jName, int PartidasJugadas)
 {
-	this->Jugador = Jugador;
-	this->j = j;
+	this->JugadorNick = JugadorNick;
+	this->jName = jName;
 	this->PartidasJugadas = PartidasJugadas;
 }
 
 Partida::Partida(const Partida &p)
 {
-	this->Jugador = p.Jugador;
-	this->j = p.j;
+	this->JugadorNick = p.JugadorNick;
+	this->jName = p.jName;
 	this->PartidasJugadas = p.PartidasJugadas;
 }
 Partida::Partida()
@@ -24,29 +24,29 @@ Partida::~Partida()
 {
 }
 
-Persona Partida::getJugador()
+string Partida::getJugador() const
 {
-	return this-> Jugador;
+	return this-> JugadorNick;
 }
 
-Juego Partida::getJuego()
+string Partida::getJuego() const
 {
-	return this-> j;
+	return this-> jName;
 }
 
-int Partida::getPJugadas()
+int Partida::getPJugadas() const
 {
 	return this-> PartidasJugadas;
 }
 
-void Partida::setJugador(Persona Jugador)
+void Partida::setJugador(string JugadorNick)
 {
-	this->Jugador = Jugador;
+	this->JugadorNick = JugadorNick;
 }
 
-void Partida::setJuego(Juego j)
+void Partida::setJuego(string jName)
 {
-	this->j = j;
+	this->jName = jName;
 }
 
 void Partida::setPJugadas(int PartidasJugadas)
@@ -57,8 +57,10 @@ void Partida::jugarPartida()
 {
 	this-> PartidasJugadas++;
 }
-void Partida::MostrarPartida()
+
+ostream& operator<<(ostream& out, const Partida& p)
 {
-	cout << "Nick de la persona: " << Jugador.getnick() << ",\nNombre del Juego: " << j.getNombre() << ",\nPartidas Jugadas: " << PartidasJugadas << endl;
+	out << "Nick de la persona: " << p.getJugador() << ",\nNombre del Juego: " << p.getJuego() << ",\nPartidas Jugadas: " << p.getPJugadas() <<  endl;
+	return out;
 }
 

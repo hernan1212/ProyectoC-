@@ -14,8 +14,9 @@ public:
 	Administrador();
 	virtual ~Administrador();
 
-	string getcod();
+	string getcod() const;
 	void setcod(string cod_administrador);
-	void MostrarAdmin();
 };
+
+ostream& operator<<(ostream& out, const Administrador& a);
 #endif

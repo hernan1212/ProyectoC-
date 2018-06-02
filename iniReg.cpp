@@ -134,13 +134,10 @@ int Registrar()
 		usu.setedad(LeerValorInt(1,100));
 		usu.setbloq(false);
 
-		cout << usu.getedad();
-
 		users.push_back(usu);
 
 		//escribirUsuariosBin(users,control1+1);
 		return MenuU(usu);
-		return 0;
 	}
 	else if(opcionRegistro)
 	{
@@ -204,8 +201,6 @@ int Registrar()
 
 		//escribirAdministradoresBin(admins,control2+1);
 		return MenuA(admin);
-
-			return 0;
 	}
 }
 
@@ -242,9 +237,10 @@ int LeerValorInt(int i, int s)
 
 			aux=stoi(aux2);
 			control=true;
-			if(aux2.length()!=(to_string(aux).length()))
+
+			if(aux2.length()!=(to_string(aux).length())||aux>s || aux<i)
 			{
-				cout << "no se admite carcteres no numericos" << endl;
+				cout << "introduce solo numeros comprendidos entre " << i << " y " << s << endl;
 				control=false;
 			}
 

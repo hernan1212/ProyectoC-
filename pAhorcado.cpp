@@ -1,7 +1,7 @@
 #include <iostream>
 #include "pAhorcado.h"
 
-PAhorcado::PAhorcado(const Persona Jugador, Juego j, int PartidasJugadas, int PartidasGanadas):Partida(Jugador, j, PartidasJugadas)
+PAhorcado::PAhorcado(string JugadorNick, string jName, int PartidasJugadas, int PartidasGanadas):Partida(JugadorNick, jName, PartidasJugadas)
 {
 	this->PartidasGanadas = PartidasGanadas;
 }
@@ -18,7 +18,7 @@ PAhorcado::~PAhorcado()
 {
 }
 
-int PAhorcado::getPGanadas()
+int PAhorcado::getPGanadas() const
 {
 	return this-> PartidasGanadas;
 }
@@ -30,7 +30,9 @@ void PAhorcado::ganarPartida()
 {
 	this->PartidasGanadas++;
 }
-void PAhorcado::MostrarPartida()
+
+ostream& operator<<(ostream& out, const PAhorcado& pa)
 {
-	cout << "Nick de la persona: " << Jugador.getnick() << ",\nNombre del Juego: " << j.getNombre() << ",\nPartidas Jugadas: " << PartidasJugadas << ",\nPartidas Ganadas: " << PartidasGanadas << endl;
+	out << (Partida) pa << ",\nPartidas Ganadas: " << pa.getPGanadas() << endl;
+	return out;
 }

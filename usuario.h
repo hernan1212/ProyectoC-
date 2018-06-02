@@ -14,8 +14,9 @@ public:
 	Usuario();
 	virtual ~Usuario();
 
-	bool getbloq();
+	bool getbloq() const;
 	void setbloq(bool bloq);
-	void MostrarUsuario();
 };
+
+ostream& operator<<(ostream& out, const Usuario& u);
 #endif

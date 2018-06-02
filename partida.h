@@ -1,31 +1,32 @@
 #ifndef _PARTIDA_H_
 #define _PARTIDA_H_
-#include "persona.h"
-#include "juego.h"
+#include <string>
+
+using namespace std;
 
 	class Partida
 	{
 	protected:
-		Persona Jugador;
-		Juego j;
+		string JugadorNick;
+		string jName;
 		int PartidasJugadas;
 	public:
-		Partida(const Persona Jugador, Juego j, int PartidasJugadas);
+		Partida(string JugadorNick, string jName, int PartidasJugadas);
 		Partida(const Partida &p);
 		Partida();
 		virtual ~Partida();
 
-		Persona getJugador();
-		void setJugador(Persona Jugador);
+		string getJugador() const;
+		void setJugador(string JugadorNick);
 
-		Juego getJuego();
-		void setJuego(Juego j);
+		string getJuego() const;
+		void setJuego(string jName);
 
-		int getPJugadas();
+		int getPJugadas() const;
 		void setPJugadas(int PartidasJugadas);
 
 		void jugarPartida();
-
-		virtual void MostrarPartida();
 	};
+
+	ostream& operator<<(ostream& out, const Partida& p);
 #endif

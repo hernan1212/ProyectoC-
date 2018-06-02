@@ -1,7 +1,7 @@
 #include <iostream>
 #include "pCalc.h"
 
-PCalc::PCalc(const Persona Jugador, Juego j, int PartidasJugadas, int PuntMax):Partida(Jugador, j, PartidasJugadas)
+PCalc::PCalc(string JugadorNick, string jName, int PartidasJugadas, int PuntMax):Partida(JugadorNick, jName, PartidasJugadas)
 {
 	this->PuntMax = PuntMax;
 }
@@ -19,7 +19,7 @@ PCalc::~PCalc()
 {
 }
 
-int PCalc::getPMax()
+int PCalc::getPMax() const
 {
 	return this-> PuntMax;
 }
@@ -27,7 +27,9 @@ void PCalc::setPMax(int PuntMax)
 {
 	this-> PuntMax = PuntMax;
 }
-void PCalc::MostrarPartida()
+
+ostream& operator<<(ostream& out, const PCalc& pc)
 {
-	cout << "Nick de la persona: " << Jugador.getnick() << ",\nNombre del Juego: " << j.getNombre() << ",\nPartidas Jugadas: " << PartidasJugadas << ",\nPuntuación maxima: " << PuntMax << endl;
+	out << (Partida) pc << ",\nPuntuación maxima: " << pc.getPMax() << endl;
+	return out;
 }

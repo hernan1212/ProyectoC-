@@ -19,19 +19,19 @@ using namespace std;
 		Persona();
 		virtual ~Persona();
 
-		string getnick();
+		string getnick() const;
 		void setnick(string nick);
 
-		string getcontra();
+		string getcontra() const;
 		void setcontra(string contra);
 
-		string getnombre();
+		string getnombre() const;
 		void setnombre(string nombre);
 
-		string getapellido();
+		string getapellido() const;
 		void setapellido(string apellido);
 
-		int getedad();
+		int getedad() const;
 		void setedad(int edad);
 	};
 #endif

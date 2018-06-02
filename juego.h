@@ -20,24 +20,22 @@ public:
 	Juego();
 	virtual ~Juego();
 
-	Persona getCreador();
+	Persona getCreador() const;
 	void setCreador(Persona creador);
 
-	string getNombre();
+	string getNombre() const;
 	void setNombre(string nombre);
 
-	string getGenero();
+	string getGenero() const;
 	void setGenero(string genero);
 
-	string getEjecutable();
+	string getEjecutable() const;
 	void setEjecutable(string ejecutable);
 
-	int getPrecio();
+	int getPrecio() const;
 	void setPrecio(int precio);
-
-	void mostrarJuego();
-
-
 };
+
+	ostream& operator<<(ostream& out, const Juego& j);
 
 #endif

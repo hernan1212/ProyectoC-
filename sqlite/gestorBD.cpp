@@ -4,7 +4,6 @@
 #include <string>
 #include <vector>
 #include "GestorBD.h"
-#include "usuario.h"
 
 GestorBD::GestorBD(string dbFile) 
 {
@@ -23,19 +22,19 @@ GestorBD::GestorBD(string dbFile)
 
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
-    sql = "CREATE TABLE Juego(nick TEXT, nombre TEXT, genero TEXT, ejecutable TEXT, precio INT);";
+    sql = "CREATE TABLE juego(nick TEXT, nombre TEXT, genero TEXT, ejecutable TEXT, precio INT);";
 
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
-    sql = "CREATE TABLE Partida(nick TEXT, nombre TEXT, PartidasJugadas INT);";
+    sql = "CREATE TABLE partida(nick TEXT, nombre TEXT, PartidasJugadas INT);";
 
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
-    sql = "CREATE TABLE PAhorcado(nick TEXT, nombre TEXT, PartidasJugadas INT, PartidasGanadas INT);";
+    sql = "CREATE TABLE pAhorcado(nick TEXT, nombre TEXT, PartidasJugadas INT, PartidasGanadas INT);";
 
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
-    sql = "CREATE TABLE PCalc(nick TEXT, nombre TEXT, PartidasJugadas INT, PuntMax Int);";
+    sql = "CREATE TABLE pCalc(nick TEXT, nombre TEXT, PartidasJugadas INT, PuntMax Int);";
 
     result = sqlite3_exec(db, sql, 0, 0, NULL);
 
@@ -134,7 +133,7 @@ GestorBD::GestorBD(string dbFile)
     char sql[] = "select nick, contra, nombre, apellido, edad, cod_administrador from administrador";
 
     int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
-    if (result != SQLITE_OK) {
+     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (SELECT)" << std::endl;      
       std::cout << sqlite3_errmsg(db) << std::endl;
       return admins;
@@ -165,7 +164,7 @@ GestorBD::GestorBD(string dbFile)
     strcpy(cod_administrador, (char *) sqlite3_column_text(stmt, 5));
     Administrador a(nick, contra, nombre, apellido, edad, cod_administrador);
     admins.push_back(a);
-  std::cout << "Nick: " << nick << ", contraseña: " << contra << ", nombre: " << nombre << ", apellido: " << apellido << ", edad: " << edad << ", Codigo administrador: " << cod_administrador << std::endl;
+    std::cout << "Nick: " << nick << ", contraseña: " << contra << ", nombre: " << nombre << ", apellido: " << apellido << ", edad: " << edad << ", Codigo administrador: " << cod_administrador << std::endl;
       }
     } while (result == SQLITE_ROW);
 
@@ -189,6 +188,7 @@ GestorBD::GestorBD(string dbFile)
     sqlite3_stmt *stmt;
     sqlite3_stmt *stmt2;
     vector <Juego> juegos;
+    int result2;
 
     string sql = "select nick, nombre, genero, ejecutable, precio from juego";
 
@@ -202,7 +202,7 @@ GestorBD::GestorBD(string dbFile)
     std::cout << "SQL query prepared (SELECT)" << std::endl;
 
 
-    char* nick;
+    char nick[100];
     char nombre[100];
     char genero[100];
     char ejecutable[100];
@@ -225,9 +225,30 @@ GestorBD::GestorBD(string dbFile)
     strcpy(genero, (char *) sqlite3_column_text(stmt, 2));
     strcpy(ejecutable, (char *) sqlite3_column_text(stmt, 3));
     precio = sqlite3_column_int(stmt, 4);
-    string aux1("select nick from usuario u, administrador a where u.nick="), aux2("|| a.nick=");
-    sql = aux1 + nickP + aux2 + nickP;    
-    result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt2, NULL);
+
+    string aux1("select nick, contra, nombre, apellido, edad from usuario where nick=\"");
+    string aux3("\"");
+    sql = aux1 + nick + aux3;    
+    result2 = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt2, NULL);
+    if (result2 != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return juegos;
+    }
+    result2 = sqlite3_step(stmt2);
+    if (!(result2 == SQLITE_ROW))
+    {
+      std::cout << "hola"<< std::endl;
+      string aux2("select nick, contra, nombre, apellido, edad from administrador where nick=\"");
+      sql = aux2 + nick + aux3;    
+      result2 = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt2, NULL);
+      if (result2 != SQLITE_OK) {
+        std::cout << "Error preparing statement (SELECT)" << std::endl;      
+        std::cout << sqlite3_errmsg(db) << std::endl;
+        return juegos;
+      }
+    }
+    
     strcpy(nickP, (char *) sqlite3_column_text(stmt2, 0));
     strcpy(contraP, (char *) sqlite3_column_text(stmt2, 1));
     strcpy(nombreP, (char *) sqlite3_column_text(stmt2, 2));
@@ -237,7 +258,13 @@ GestorBD::GestorBD(string dbFile)
 
     Juego j(p, nombre, genero, ejecutable, edad);
     juegos.push_back(j);
-  std::cout << "Nick: " << nick << ", nombre: " << nombre << ", genero: " << genero << ", ejecutable: " << ejecutable << ", precio: " << precio << std::endl;
+    std::cout << "Nick: " << nick << ", nombre: " << nombre << ", genero: " << genero << ", ejecutable: " << ejecutable << ", precio: " << precio << std::endl;
+    result2 = sqlite3_finalize(stmt2);
+    if (result2 != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return juegos;
+    }  
       }
     } while (result == SQLITE_ROW);
 
@@ -256,7 +283,168 @@ GestorBD::GestorBD(string dbFile)
     return juegos;
   }
 
+  vector <Partida> GestorBD::returnPartidas()
+  {
+    sqlite3_stmt *stmt;
+    vector <Partida> partidas;
 
+    char sql[] = "select nick, nombre, PartidasJugadas from partida";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return partidas;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char nick[100];
+    char nombre[100];
+    int PartidasJugadas;
+
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing partidas" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 1));
+    PartidasJugadas = sqlite3_column_int(stmt, 2);
+    Partida p(nick, nombre, PartidasJugadas);
+    partidas.push_back(p);
+    std::cout << p <<std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return partidas;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return partidas;
+  }
+
+  vector <PAhorcado> GestorBD::returnPAhorcado()
+  {
+    sqlite3_stmt *stmt;
+    vector <PAhorcado> pAs;
+
+    char sql[] = "select nick, nombre, PartidasJugadas, PartidasGanadas from pAhorcado";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return pAs;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char nick[100];
+    char nombre[100];
+    int PartidasJugadas;
+    int PartidasGanadas;
+
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing pAhorcado" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 1));
+    PartidasJugadas = sqlite3_column_int(stmt, 2);
+    PartidasGanadas = sqlite3_column_int(stmt, 3);
+    PAhorcado pA(nick, nombre, PartidasJugadas, PartidasGanadas);
+    pAs.push_back(pA);
+    std::cout << pA <<std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return pAs;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return pAs;
+  }
+
+  vector <PCalc> GestorBD::returnPCalc()
+  {
+    sqlite3_stmt *stmt;
+    vector <PCalc> pCs;
+
+    char sql[] = "select nick, nombre, PartidasJugadas, PuntMax from pCalc";
+
+    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (SELECT)" << std::endl;      
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return pCs;
+    }
+
+    std::cout << "SQL query prepared (SELECT)" << std::endl;
+
+
+    char nick[100];
+    char nombre[100];
+    int PartidasJugadas;
+    int PuntMax;
+
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+    std::cout << "Showing pCalc" << std::endl;
+
+    do {
+      result = sqlite3_step(stmt);
+      if (result == SQLITE_ROW) {
+    strcpy(nick, (char *) sqlite3_column_text(stmt, 0));
+    strcpy(nombre, (char *) sqlite3_column_text(stmt, 1));
+    PartidasJugadas = sqlite3_column_int(stmt, 2);
+    PuntMax = sqlite3_column_int(stmt, 3);
+    PCalc pC(nick, nombre, PartidasJugadas, PuntMax);
+    pCs.push_back(pC);
+    std::cout << pC <<std::endl;
+      }
+    } while (result == SQLITE_ROW);
+
+    std::cout << std::endl;
+    std::cout << std::endl;
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (SELECT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return pCs;
+    }
+
+    std::cout << "Prepared statement finalized (SELECT)" << std::endl;
+
+    return pCs;
+  }
   int GestorBD::showAllUsers() {
     sqlite3_stmt *stmt;
 
@@ -343,7 +531,8 @@ GestorBD::GestorBD(string dbFile)
     return SQLITE_OK;
   }
 
-  int GestorBD::insertNewUser(string nick, string contra, string nombre, string apellido, int edad) {
+  int GestorBD::insertNewUser(string nick, string contra, string nombre, string apellido, int edad) 
+  {
     sqlite3_stmt *stmt;
 
     char sql[] = "insert into usuario (nick, contra, nombre, apellido, edad) values (?, ?, ?, ?, ?)";
@@ -385,6 +574,318 @@ GestorBD::GestorBD(string dbFile)
     }
 
     result = sqlite3_bind_int(stmt, 5, edad);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+      std::cout << "Error inserting new data into usuario table" << std::endl;
+      return result;
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+
+    return SQLITE_OK;
+  }
+  int GestorBD::insertNewAdmins(string nick, string contra, string nombre, string apellido, int edad, string cod_administrador){
+    sqlite3_stmt *stmt;
+
+    char sql[] = "insert into administrador (nick, contra, nombre, apellido, edad, cod_administrador) values (?, ?, ?, ?, ?, ?)";
+    int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "SQL query prepared (INSERT)" << std::endl;
+
+    result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 2, contra.c_str(), contra.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 3, nombre.c_str(), nombre.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 4, apellido.c_str(), apellido.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 5, edad);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 6, cod_administrador.c_str(), cod_administrador.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+      std::cout << "Error inserting new data into usuario table" << std::endl;
+      return result;
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+
+    return SQLITE_OK;
+  }
+
+  int GestorBD::insertNewJuegos(string nick, string nombre, string genero, string ejecutable, int precio)
+  {
+    sqlite3_stmt *stmt;
+
+    char sql[] = "insert into juego (nick, nombre, genero, ejecutable, precio) values (?, ?, ?, ?, ?)";
+    int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "SQL query prepared (INSERT)" << std::endl;
+
+    result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 2, nombre.c_str(), nombre.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 3, genero.c_str(), genero.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 4, ejecutable.c_str(), ejecutable.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 5, precio);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+      std::cout << "Error inserting new data into usuario table" << std::endl;
+      return result;
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+
+    return SQLITE_OK;
+  }
+
+  int GestorBD::insertNewPartidas(string nick, string nombre, int PartidasJugadas)
+  {
+    sqlite3_stmt *stmt;
+
+    char sql[] = "insert into partida (nick, nombre, PartidasJugadas) values (?, ?, ?)";
+    int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "SQL query prepared (INSERT)" << std::endl;
+
+    result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 2, nombre.c_str(), nombre.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 3, PartidasJugadas);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+      std::cout << "Error inserting new data into usuario table" << std::endl;
+      return result;
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+
+    return SQLITE_OK;
+  }
+
+  int GestorBD::insertNewPAhorcad(string nick, string nombre, int PartidasJugadas, int PartidasGanadas)
+  {
+    sqlite3_stmt *stmt;
+
+    char sql[] = "insert into pAhorcado (nick, nombre, PartidasJugadas, PartidasGanadas) values (?, ?, ?, ?)";
+    int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "SQL query prepared (INSERT)" << std::endl;
+
+    result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 2, nombre.c_str(), nombre.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 3, PartidasJugadas);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 4, PartidasGanadas);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_step(stmt);
+    if (result != SQLITE_DONE) {
+      std::cout << "Error inserting new data into usuario table" << std::endl;
+      return result;
+    }
+
+    result = sqlite3_finalize(stmt);
+    if (result != SQLITE_OK) {
+      std::cout << "Error finalizing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "Prepared statement finalized (INSERT)" << std::endl;
+
+    return SQLITE_OK;
+  }
+
+  int GestorBD::insertNewPCalc(string nick, string nombre, int PartidasJugadas, int PuntMax)
+  {
+    sqlite3_stmt *stmt;
+
+    char sql[] = "insert into pCalc (nick, nombre, PartidasJugadas, PuntMax) values (?, ?, ?, ?)";
+    int result = sqlite3_prepare_v2(db, sql, strlen(sql) + 1, &stmt, NULL) ;
+    if (result != SQLITE_OK) {
+      std::cout << "Error preparing statement (INSERT)" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    std::cout << "SQL query prepared (INSERT)" << std::endl;
+
+    result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_text(stmt, 2, nombre.c_str(), nombre.length(), SQLITE_STATIC);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 3, PartidasJugadas);
+    if (result != SQLITE_OK) {
+      std::cout << "Error binding parameters" << std::endl;
+      std::cout << sqlite3_errmsg(db) << std::endl;
+      return result;
+    }
+
+    result = sqlite3_bind_int(stmt, 4, PuntMax);
     if (result != SQLITE_OK) {
       std::cout << "Error binding parameters" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;

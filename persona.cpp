@@ -31,23 +31,23 @@ Persona::Persona()
 }
 Persona::~Persona(){}
 
-string Persona::getnick()
+string Persona::getnick() const
 {
 	return this-> nick;
 }
-string Persona::getcontra()
+string Persona::getcontra() const
 {
 	return this-> contra;
 }
-string Persona::getnombre()
+string Persona::getnombre() const
 {
 	return this-> nombre;
 }
-string Persona::getapellido()
+string Persona::getapellido() const
 {
 	return this-> apellido;
 }
-int Persona::getedad()
+int Persona::getedad() const
 {
 	return this-> edad;
 }

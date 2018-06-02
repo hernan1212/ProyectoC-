@@ -18,20 +18,7 @@ Usuario::Usuario():Persona()
 }
 Usuario::~Usuario(){}
 
-void Usuario::MostrarUsuario()
-{
-	if(this->bloq)
-	{
-		cout <<"Nick: " << this->nick << ",\nContrasena: " << this->contra << ",\nNombre: " << this->nombre << ",\nApellido: " << this->apellido << ",\nEdad: " << this->edad <<",\nEste usuario esta bloqueado" << endl;		
-	}
-	else
-	{
-		cout <<"Nick: " << this->nick << ",\nContrasena: " << this->contra << ",\nNombre: " << this->nombre << ",\nApellido: " << this->apellido << ",\nEdad: " << this->edad <<",\nEste usuario no esta bloqueado" << endl;		
-	
-	}
-}
-
-bool Usuario::getbloq()
+bool Usuario::getbloq() const
 {
 	return this-> bloq;
 
@@ -39,4 +26,17 @@ bool Usuario::getbloq()
 void Usuario::setbloq(bool bloq)
 {
 	 this-> bloq=bloq;
+}
+
+ostream& operator<<(ostream& out, const Usuario& u)
+{
+	if(u.getbloq())
+	{
+		out <<"Nick: " << u.getnick() << ",\nContrasena: " << u.getcontra() << ",\nNombre: " << u.getnombre() << ",\nApellido: " << u.getapellido() << ",\nEdad: " << u.getedad() <<",\nEste usuario esta bloqueado" << endl;			
+	}
+	else
+	{
+		out <<"Nick: " << u.getnick() << ",\nContrasena: " << u.getcontra() << ",\nNombre: " << u.getnombre() << ",\nApellido: " << u.getapellido() << ",\nEdad: " << u.getedad() <<",\nEste usuario no esta bloqueado" << endl;		
+	}
+	return out;
 }

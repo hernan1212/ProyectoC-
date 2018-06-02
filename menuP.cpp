@@ -153,7 +153,7 @@ void ListaJuegos(vector <Juego> j, int control1)
  		for(int i=0;i<control1;i++)
  		{
  			cout <<i+1<<".-";
-			j[i].mostrarJuego();
+			cout << j[i] << endl;
  		}
  	}
 }
@@ -175,7 +175,7 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 	for(int i=0;i<control1;i++)
 	{
 		cout <<i+1<<".-";
-		j[i].mostrarJuego();
+		cout << j[i] << endl;
 	}
 	opcion=LeerValorInt(1,control1+1);
 
@@ -190,7 +190,7 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 			resultado=system(j[i].getEjecutable().c_str());
 			for(int i=0;i<control2;i++)
 			{
-				if((p1[i].getJugador().getnick().compare(p.getnick()))==0)
+				if((p1[i].getJugador().compare(p.getnick()))==0)
 				{
 					p1[i].jugarPartida();
 					if(resultado==1)
@@ -202,10 +202,10 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 			}
 			if(!existe)
 			{
-				auxAh.setJugador(p);
+				auxAh.setJugador(p.getnick());
 				auxAh.setPJugadas(1);
 				auxAh.setPGanadas(resultado);
-				auxAh.setJuego(j[i]);
+				auxAh.setJuego(j[i].getNombre());
 			}
 
 			system("cls");
@@ -220,7 +220,7 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 			existe=false;
 			for(int i=0;i<control3;i++)
 			{
-				if((p2[i].getJugador().getnick().compare(p.getnick()))==0)
+				if((p2[i].getJugador().compare(p.getnick()))==0)
 				{
 					p2[i].jugarPartida();
 					if(resultado>p2[i].getPMax())
@@ -232,10 +232,10 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 			}
 			if(!existe)
 			{
-				auxPc.setJugador(p);
+				auxPc.setJugador(p.getnick());
 				auxPc.setPJugadas(1);
 				auxPc.setPMax(resultado);
-				auxPc.setJuego(j[i]);
+				auxPc.setJuego(j[i].getNombre());
 			}
 			system("cls");
 			//escribirPartidasCBin(p2,control3+1);
@@ -257,12 +257,12 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 void PerfilU(Usuario u)
 {
 cout << "Este es tu perfil de usuario" << endl;
-u.MostrarUsuario();
+cout << u << endl;
 }
 void PerfilA(Administrador a)
 {
 cout <<"Este es tu perfil de administrador" << endl;
-a.MostrarAdmin();
+cout << a << endl;
 }
 
 /*
@@ -396,7 +396,7 @@ void GestionAplicacion(vector <Juego> j, int control1)
  			for(int i=0;i<control1;i++)
 			{
 				cout <<i+1<<".-";
-				j[i].mostrarJuego();
+				cout << j[i] << endl;
 			}
 			opcion=LeerValorInt(1,control1);
  			opcion--;
@@ -432,7 +432,7 @@ void GestionAplicacion(vector <Juego> j, int control1)
  			for(int i=0;i<control2;i++)
 			{
 				cout <<i+1<<".-";
-				us[i].MostrarUsuario();
+				cout << us[i] << endl;
 			}
 			opcion=LeerValorInt(1,control1);
 			{
@@ -440,7 +440,7 @@ void GestionAplicacion(vector <Juego> j, int control1)
    				for(int i=0;i<control2;i++)
 				{
 					cout <<i+1<<".-";
-				us[i].MostrarUsuario();
+					cout << us[i] << endl;
 
 				}
  			}

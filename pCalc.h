@@ -7,15 +7,16 @@ class PCalc: public Partida
 private:
 	int PuntMax;
 public:
-	PCalc(const Persona Jugador, Juego j, int PartidasJugadas, int PuntMax);
+	PCalc(string JugadorNick, string jName, int PartidasJugadas, int PuntMax);
 	PCalc(const PCalc &p);
 	PCalc();
 	virtual ~PCalc();
 
-	int getPMax();
+	int getPMax() const;
 	void setPMax(int PuntMax);
-
-	virtual void MostrarPartida();
 };
+
+ostream& operator<<(ostream& out, const PCalc& pc);
+
 
 #endif

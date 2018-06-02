@@ -7,17 +7,17 @@ class PAhorcado: public Partida
 private:
 	int PartidasGanadas;
 public:
-	PAhorcado(const Persona Jugador, Juego j, int PartidasJugadas, int PartidasGanadas);
+	PAhorcado(string JugadorNick, string jName, int PartidasJugadas, int PartidasGanadas);
 	PAhorcado(const PAhorcado &p);
 	PAhorcado();
 	virtual ~PAhorcado();
 
-	int getPGanadas();
+	int getPGanadas() const;
 	void setPGanadas(int PartidasJugadas);
 
 	void ganarPartida();
-
-	virtual void MostrarPartida();
 };
+
+ostream& operator<<(ostream& out, const PAhorcado& pa);
 
 #endif

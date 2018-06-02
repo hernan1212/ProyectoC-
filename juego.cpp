@@ -34,23 +34,23 @@ Juego::~Juego()
 {
 }
 
-Persona Juego::getCreador()
+Persona Juego::getCreador() const
 {
 	return this-> creador;
 }
-string Juego::getNombre()
+string Juego::getNombre() const
 {
 	return this-> nombre;
 }
-string Juego::getGenero()
+string Juego::getGenero() const
 {
 	return this-> genero;
 }
-string Juego::getEjecutable()
+string Juego::getEjecutable() const
 {
 	return this-> ejecutable;
 }
-int Juego::getPrecio()
+int Juego::getPrecio() const
 {
 	return this-> precio;
 }
@@ -75,7 +75,8 @@ void Juego::setPrecio(int precio)
 	this->precio = precio;
 }
 
-void Juego::mostrarJuego()
+ostream& operator<<(ostream& out, const Juego& j)
 {
-	cout << "Nombre: " << this->nombre << ",\nGenero: " << this->genero << ",\nNick del creador: " << this->creador.getnick() << ",\nPrecio: " << this->precio << "euros" << endl;
+	out << "Nombre: " << j.getNombre() << ",\nGenero: " << j.getGenero() << ",\nNick del creador: " << j.getCreador().getnick() << ",\nPrecio: " << j.getPrecio() << "euros" << endl;
+	return out;
 }

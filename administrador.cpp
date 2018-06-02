@@ -18,12 +18,7 @@ Administrador::Administrador():Persona()
 }
 Administrador::~Administrador(){}
 
-void Administrador::MostrarAdmin()
-{
-	cout <<"Nick: " << this->nick << ",\nContrasena: " << this->contra << ",\nNombre: " << this->nombre << ",\nApellido: " << this->apellido << ",\nEdad: " << this->edad <<",\nCodigo de administrador: " << this->cod_administrador << endl;
-}
-
-string Administrador::getcod()
+string Administrador::getcod() const
 {
 	return this-> cod_administrador;
 
@@ -31,4 +26,10 @@ string Administrador::getcod()
 void Administrador::setcod(string cod_administrador)
 {
 	 this-> cod_administrador=cod_administrador;
+}
+
+ostream& operator<<(ostream& out, const Administrador& a)
+{
+	out <<"Nick: " << a.getnick() << ",\nContrasena: " << a.getcontra() << ",\nNombre: " << a.getnombre() << ",\nApellido: " << a.getapellido() << ",\nEdad: " << a.getedad() <<",\nCodigo de administrador: " << a.getcod() << endl;
+	return out;
 }
