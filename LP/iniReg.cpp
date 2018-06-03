@@ -117,7 +117,7 @@ int Registrar()
 		usu.setbloq(false);
 
 
-		db.insertNewUser(usu.getnick(),usu.getcontra(),usu.getnombre(),usu.getapellido(),usu.getedad());
+		db.insertNewUser(usu.getnick(),usu.getcontra(),usu.getnombre(),usu.getapellido(),usu.getedad(), false);
 
 		return MenuU(usu, db);
 	}

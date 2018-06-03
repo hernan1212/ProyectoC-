@@ -26,13 +26,11 @@ public:
 	~GestorBD();
 
 	int dropTable();
-	int deleteAllUsers();
-	int showAllUsers();
-//	int showAllAdmins();
-//	int showAllJuegos();
-//	int showAllPartidas();
-//	int showAllPAhorcado();
-//	int showAllPCalc();
+	int deleteJuego(string nombre);
+	int deleteUsuario(string nick);
+	int deletePartida(string nick, string nombre);
+	int deletePAhorcado(string nick, string nombre);
+	int deletePCalc(string nick, string nombre);
 
 	vector <Usuario> returnUsuarios();
 	vector <Administrador> returnAdministradores();
@@ -41,11 +39,11 @@ public:
 	vector <PAhorcado> returnPAhorcado();
 	vector <PCalc> returnPCalc();
 
-	int insertNewUser(string nick, string contra, string nombre, string apellido, int edad);
+	int insertNewUser(string nick, string contra, string nombre, string apellido, int edad, bool bloq);
 	int insertNewAdmins(string nick, string contra, string nombre, string apellido, int edad, string cod_administrador);
 	int insertNewJuegos(string nick, string nombre, string genero, string ejecutable, int precio);
 	int insertNewPartidas(string nick, string nombre, int PartidasJugadas);
-	int insertNewPAhorcad(string nick, string nombre, int PartidasJugadas, int PartidasGanadas);
+	int insertNewPAhorcado(string nick, string nombre, int PartidasJugadas, int PartidasGanadas);
 	int insertNewPCalc(string nick, string nombre, int PartidasJugadas, int PuntMax);
 
 };
