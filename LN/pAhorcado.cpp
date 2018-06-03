@@ -33,6 +33,6 @@ void PAhorcado::ganarPartida()
 
 ostream& operator<<(ostream& out, const PAhorcado& pa)
 {
-	out << (Partida) pa << ",\nPartidas Ganadas: " << pa.getPGanadas() << endl;
+	out << (Partida) pa << "Partidas Ganadas: " << pa.getPGanadas() << endl;
 	return out;
 }

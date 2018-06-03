@@ -259,12 +259,8 @@ GestorBD::GestorBD(string dbFile)
     PartidasJugadas = sqlite3_column_int(stmt, 2);
     Partida p(nick, nombre, PartidasJugadas);
     partidas.push_back(p);
-    std::cout << p <<std::endl;
       }
     } while (result == SQLITE_ROW);
-
-    std::cout << std::endl;
-    std::cout << std::endl;
 
     result = sqlite3_finalize(stmt);
     if (result != SQLITE_OK) {
@@ -302,7 +298,6 @@ GestorBD::GestorBD(string dbFile)
     PartidasGanadas = sqlite3_column_int(stmt, 3);
     PAhorcado pA(nick, nombre, PartidasJugadas, PartidasGanadas);
     pAs.push_back(pA);
-    std::cout << pA <<std::endl;
       }
     } while (result == SQLITE_ROW);
 
@@ -342,7 +337,6 @@ GestorBD::GestorBD(string dbFile)
     PuntMax = sqlite3_column_int(stmt, 3);
     PCalc pC(nick, nombre, PartidasJugadas, PuntMax);
     pCs.push_back(pC);
-    std::cout << pC <<std::endl;
       }
     } while (result == SQLITE_ROW);
 
@@ -417,7 +411,7 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
- string sql= ("delete from partida where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+ string sql= ("delete from partida where nombre=\"" + nombre + "\" and  nick=\"" + nick + "\"").c_str();
 
     int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
@@ -446,7 +440,7 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
-    string sql= ("delete from pAhorcado where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+    string sql= ("delete from pAhorcado where nombre=\"" + nombre + "\" and  nick=\"" + nick + "\"").c_str();
 
     int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
@@ -475,7 +469,7 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
-    string sql= ("delete from pCalc where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+    string sql= ("delete from pCalc where nombre=\"" + nombre + "\" and  nick=\"" + nick + "\"").c_str();
 
     int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
@@ -818,8 +812,6 @@ GestorBD::GestorBD(string dbFile)
       std::cout << sqlite3_errmsg(db) << std::endl;
       return result;
     }
-
-    std::cout << "SQL query prepared (INSERT)" << std::endl;
 
     result = sqlite3_bind_text(stmt, 1, nick.c_str(), nick.length(), SQLITE_STATIC);
     if (result != SQLITE_OK) {

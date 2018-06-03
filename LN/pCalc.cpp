@@ -30,6 +30,6 @@ void PCalc::setPMax(int PuntMax)
 
 ostream& operator<<(ostream& out, const PCalc& pc)
 {
-	out << (Partida) pc << ",\nPuntuación maxima: " << pc.getPMax() << endl;
+	out << (Partida) pc << "Puntuacion maxima: " << pc.getPMax() << endl;
 	return out;
 }
