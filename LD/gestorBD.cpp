@@ -185,6 +185,8 @@ GestorBD::GestorBD(string dbFile)
     strcpy(ejecutable, (char *) sqlite3_column_text(stmt, 3));
     precio = sqlite3_column_int(stmt, 4);
 
+
+
     string aux1("select nick, contra, nombre, apellido, edad from usuario where nick=\"");
     string aux3("\"");
     sql = aux1 + nick + aux3;    
@@ -212,7 +214,7 @@ GestorBD::GestorBD(string dbFile)
     edad = sqlite3_column_int(stmt2, 4);
     Persona p(nickP, contraP, nombreP, apellidoP, edad);
 
-    Juego j(p, nombre, genero, ejecutable, edad);
+    Juego j(p, nombre, genero, ejecutable, precio);
     juegos.push_back(j);
     result2 = sqlite3_finalize(stmt2);
     if (result2 != SQLITE_OK) {

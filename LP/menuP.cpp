@@ -2,9 +2,9 @@
 
 using namespace std;
 
-//#include "operaciones.h"
 
-int MenuU(Usuario u, GestorBD db)
+
+int MenuU(Usuario u, GestorBD &db)
 {
 	int opcion;
 	int control;
@@ -15,10 +15,20 @@ int MenuU(Usuario u, GestorBD db)
 	vector <Juego> juegos;
 	vector <PAhorcado> pa;
 	vector <PCalc> pc;
+	vector <Partida> partida;
+
+	pc=db.returnPCalc();
+	pa=db.returnPAhorcado();
+	partida=db.returnPartidas();
+	juegos=db.returnJuegos();
+
+	
 
 	control=juegos.size();
 	controlP1=pa.size();
 	controlP2=pc.size();
+
+
 
 	do
 	{
@@ -33,10 +43,11 @@ int MenuU(Usuario u, GestorBD db)
 				ListaJuegos(juegos,control);
 				break;
 			case 2:																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																																		
-				if(Jugar(juegos, pa, pc, u, control, controlP1, controlP2)==1)
+				if(Jugar(juegos, pa, pc, u, control, controlP1, controlP2,db)==1)
 				{
-					//pa=LeerPartidasBin(&controlP1);
-					//pc=LeerPartidasCBin(&controlP2);
+						pc=db.returnPCalc();
+						pa=db.returnPAhorcado();
+						partida=db.returnPartidas();
 				}
 				break;
 			case 3:
@@ -46,7 +57,9 @@ int MenuU(Usuario u, GestorBD db)
 				//Estadisticas(pa, pc, controlP1, controlP2);
 				break;
 			case 5:
-				control=SubirJuego(juegos, u, control);
+				control=SubirJuego(juegos, u, control, db);
+				juegos=db.returnJuegos();
+
 				break;			
 			case 6:
 				cout <<"Se cerrara la sesion." << endl;
@@ -64,7 +77,7 @@ int MenuU(Usuario u, GestorBD db)
 	}while(true);
 }
 
-int MenuA(Administrador a, GestorBD db)
+int MenuA(Administrador a, GestorBD &db)
 {
 	int opcion;
 	int control;
@@ -76,6 +89,12 @@ int MenuA(Administrador a, GestorBD db)
 	vector <Juego> juegos;
 	vector <PAhorcado> pa;
 	vector <PCalc> pc;
+	vector <Partida> partida;
+
+	pc=db.returnPCalc();
+	pa=db.returnPAhorcado();
+	partida=db.returnPartidas();
+	juegos=db.returnJuegos();
 
 	control=juegos.size();
 	controlP1=pa.size();
@@ -91,10 +110,11 @@ int MenuA(Administrador a, GestorBD db)
 				ListaJuegos(juegos, control);
 				break;
 			case 2:
-				if(Jugar(juegos, pa, pc, a, control, controlP1, controlP2)==1)
+				if(Jugar(juegos, pa, pc, a, control, controlP1, controlP2,db)==1)
 				{
-					//pa=LeerPartidasBin(&controlP1);
-					//pc=LeerPartidasCBin(&controlP2);
+						pc=db.returnPCalc();
+						pa=db.returnPAhorcado();
+						partida=db.returnPartidas();
 				}
 				break;
 			case 3:
@@ -104,11 +124,11 @@ int MenuA(Administrador a, GestorBD db)
 				//Estadisticas(pa, pc, controlP1, controlP2);
 				break;
 			case 5:
-				control=SubirJuego(juegos, a, control);
+				control=SubirJuego(juegos, a, control, db);
 				break;	
 			case 6:
-				GestionAplicacion(juegos, control);
-				//juegos=LeerJuegosBin(&control);
+				GestionAplicacion(juegos, control,db);
+				juegos=db.returnJuegos();
 				break;			
 			case 7:
 				cout <<"Se cerrara la sesion." << endl;
@@ -126,6 +146,13 @@ int MenuA(Administrador a, GestorBD db)
 
 void ListaJuegos(vector <Juego> j, int control1)
 {
+
+	for(int i=0;i<control1;i++)
+ 		{
+ 			cout <<i+1<<".-";
+			cout << j[i] << endl;
+ 		}
+
 	int opcion;
 	if(control1==0)
 	{
@@ -139,12 +166,12 @@ void ListaJuegos(vector <Juego> j, int control1)
  	if(opcion==1)
  	{
  		cout <<"Has decidido mostrar los juegos ordenados por nombre:" << endl;
- 		//OrdenarJuegoPorNombre(j, control1);
+ 		OrdenarJuegoPorNombre(j);
  	}
  	else
  	{
  		cout <<"Has decidido mostrar los juegos ordenados por precio:" << endl;
-		//OrdenarJuegoPorPrecio(j, control1);
+		OrdenarJuegoPorPrecio(j);
  	}
  		for(int i=0;i<control1;i++)
  		{
@@ -154,13 +181,15 @@ void ListaJuegos(vector <Juego> j, int control1)
  	}
 }
 	
-int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, int control1, int control2, int control3)
+int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, int control1, int control2, int control3,GestorBD &db)
 {
 	int opcion, resultado;
 	bool existe=false;
 
 	PAhorcado auxAh;
 	PCalc auxPc;
+	cout<<j.size();
+
 	if(control1==0)
 	{
 		cout <<"No hay ningun juego introducido en la base de datos." << endl;
@@ -184,6 +213,7 @@ int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, 
 			system("cls");
 			//Para linux: system("clear"); 
 			resultado=system(j[i].getEjecutable().c_str());
+			cout <<j[i].getEjecutable().c_str()<< endl;
 			for(int i=0;i<control2;i++)
 			{
 				if((p1[i].getJugador().compare(p.getnick()))==0)
@@ -311,7 +341,7 @@ void Estadisticas(pAhorcado* p1, pCalc * p2, int control1, int control2)
  */
 
 
-int SubirJuego(vector <Juego> j,  Persona p, int control1)
+int SubirJuego(vector <Juego> j,  Persona p, int control1, GestorBD &db)
 {
 	Juego ju;
 	bool bienhecho;
@@ -342,7 +372,6 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 
 	cout <<"Inserte el precio del juego (de 0 a 150 euros): "<< endl;
 	ju.setPrecio(LeerValorInt(1,150));
-
 	ju.setCreador(p);
 	
 	do
@@ -350,7 +379,7 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 		existe=true;
 		bienhecho=true;
 		cout <<"El ejecutable del juego es:"<< endl;
-		ju.setEjecutable(LeerValor(0,4));
+		ju.setEjecutable(LeerValor(0,40));
 		for(int i=0;control1>i;i++)
 		{
 			if(ju.getEjecutable().compare(j[i].getEjecutable())==0)
@@ -360,7 +389,7 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 			}
 		}
 	
-		if(is_file_exist(ju.getEjecutable().c_str()))
+		if(!is_file_exist(ju.getEjecutable().c_str()))
 		{
 			cout <<"La direccion no es correcta"<< endl;
 			existe=false;
@@ -369,12 +398,12 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1)
 
 	}while(bienhecho==false||existe==false);
 
-	//j[control1]=ju;
-	//escribirJuegosBin(j,control1+1);
+	j.push_back(ju);
+	db.insertNewJuegos(ju.getCreador().getnick(),ju.getNombre(),ju.getGenero(),ju.getEjecutable(), ju.getPrecio());
 	return control1+1;
 }
 
-void GestionAplicacion(vector <Juego> j, int control1)
+void GestionAplicacion(vector <Juego> j, int control1,GestorBD &db )
 {
 	int opcion;
 	cout <<"Cual de las opciones de administrador quiere ejecutar:\n 1.-Eliminar juegos de la plataforma.\n 2.-Bloquear/Desbloquear usuarios de la plataforma."<< endl;
@@ -414,10 +443,11 @@ void GestionAplicacion(vector <Juego> j, int control1)
  	}
  	else
  	{
- 		Usuario* us;
+ 	
+ 		vector <Usuario> us;
  		int control2;
- 		//us=(Usuario*)malloc(sizeof(Usuario)*30);
- 		//us=LeerUsuariosBin(&control2);
+ 		us=db.returnUsuarios();
+
  		if(control2==0)
  		{
  			cout <<"No hay usuarios registrados en la plataforma."<< endl;
@@ -437,7 +467,6 @@ void GestionAplicacion(vector <Juego> j, int control1)
 				{
 					cout <<i+1<<".-";
 					cout << us[i] << endl;
-
 				}
  			}
  			opcion--;

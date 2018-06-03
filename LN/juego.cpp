@@ -77,6 +77,6 @@ void Juego::setPrecio(int precio)
 
 ostream& operator<<(ostream& out, const Juego& j)
 {
-	out << "Nombre: " << j.getNombre() << ",\nGenero: " << j.getGenero() << ",\nNick del creador: " << j.getCreador().getnick() << ",\nPrecio: " << j.getPrecio() << "euros" << endl;
+	out << "Nombre: " << j.getNombre() << ",\nGenero: " << j.getGenero() << ",\nNick del creador: " << j.getCreador().getnick() << ",\nPrecio: " << j.getPrecio() << " euros " << endl;
 	return out;
 }
