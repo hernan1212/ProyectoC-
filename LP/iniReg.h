@@ -14,6 +14,6 @@
 	
 int IniciarSesion();
 int Registrar();
-string LeerValor(int i, int s);
-int LeerValorInt(int i, int s);
+string LeerValor(unsigned int i, unsigned int s);
+int LeerValorInt(unsigned int i, unsigned int s);
 #endif

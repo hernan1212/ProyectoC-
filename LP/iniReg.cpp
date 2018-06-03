@@ -27,7 +27,7 @@ int IniciarSesion()
 	pers.setcontra(aux);
 
 
-	for(int i=0;users.size()>i;i++)
+	for(unsigned int i=0;users.size()>i;i++)
 	{
 		if((users[i].getnick().compare(pers.getnick()))==0&&(users[i].getcontra().compare(pers.getcontra()))==0)
 		{
@@ -40,7 +40,7 @@ int IniciarSesion()
 			cout<< "funsiona papu!!";
 		}
 	}
-	for(int i=0;admins.size()>i;i++)
+	for(unsigned int i=0;admins.size()>i;i++)
 	{
 		if((admins[i].getnick().compare(pers.getnick()))==0&&(admins[i].getcontra().compare(pers.getcontra()))==0)
 		{
@@ -83,7 +83,7 @@ int Registrar()
 			cout<<"Inserte el nick del usuario (de 1 a 14 caracteres): "<< endl;
 			usu.setnick(LeerValor(1,14));
 
-			for(int i=0;users.size()>i;i++)
+			for(unsigned int i=0;users.size()>i;i++)
 			{
 				if((usu.getnick().compare(users[i].getnick()))==0)
 				{
@@ -92,7 +92,7 @@ int Registrar()
 				}
 			}
 
-			for(int i=0;admins.size()>i;i++)
+			for(unsigned int i=0;admins.size()>i;i++)
 			{
 				if((usu.getnick().compare(admins[i].getnick()))==0)
 				{
@@ -121,7 +121,7 @@ int Registrar()
 
 		return MenuU(usu, db);
 	}
-	else if(opcionRegistro)
+	else
 	{
 		Administrador admin;
 		cout << "Has elegido registrarte como un administrador." << endl;
@@ -132,7 +132,7 @@ int Registrar()
 			cout << "Inserte el nick del administrador (de 1 a 14 caracteres): " << endl;
 			admin.setnick(LeerValor(1,14));
 
-			for(int i=0;users.size()>i;i++)
+			for(unsigned int i=0;users.size()>i;i++)
 			{
 				if(admin.getnick().compare(users[i].getnick())==0)
 				{
@@ -141,7 +141,7 @@ int Registrar()
 				}
 			}
 
-			for(int i=0;admins.size()>i;i++)
+			for(unsigned int i=0;admins.size()>i;i++)
 			{
 				if((admin.getnick().compare(admins[i].getnick()))==0)
 				{
@@ -169,7 +169,7 @@ int Registrar()
 			cout << "Inserte el codigo del administrador (debe tener 5 caracteres): "<< endl ;
 			admin.setcod(LeerValor(5,5));
 
-			for(int i=0;admins.size()>i;i++)
+			for(unsigned int i=0;admins.size()>i;i++)
 			{
 				if((admin.getcod().compare(admins[i].getcod()))==0)
 				{
@@ -185,7 +185,7 @@ int Registrar()
 	}
 }
 
-string LeerValor(int i, int s)
+string LeerValor(unsigned int i,unsigned int s)
 {
 	string w;
 do
@@ -203,9 +203,9 @@ while(i>w.size() || w.size()>s);
  return w;
 }
 
-int LeerValorInt(int i, int s)
+int LeerValorInt(unsigned int i, unsigned int s)
 {
-	int aux;
+	unsigned int aux;
 	string aux2;
 	bool control=true;
 

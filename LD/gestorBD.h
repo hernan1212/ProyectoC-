@@ -25,7 +25,6 @@ public:
 	GestorBD(string dbFile);
 	~GestorBD();
 
-	int dropTable();
 	int deleteJuego(string nombre);
 	int deleteUsuario(string nick);
 	int deletePartida(string nick, string nombre);

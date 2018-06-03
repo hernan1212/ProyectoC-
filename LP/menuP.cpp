@@ -132,7 +132,7 @@ void ListaJuegos(vector <Juego> &j)
  		cout <<"Has decidido mostrar los juegos ordenados por precio:" << endl;
 		OrdenarJuegoPorPrecio(j);
  	}
- 		for(int i=0;i<j.size();i++)
+ 		for(unsigned int i=0;i<j.size();i++)
  		{
  			cout <<i+1<<".-";
 			cout << j[i] << endl;
@@ -152,7 +152,7 @@ void Jugar(vector <Juego> &j, vector <Partida> &partida, vector <PAhorcado> &p1,
 	else
 	{
 	cout << "Eliga uno de los juegos para jugar:" << endl;
-	for(int i=0;i<j.size();i++)
+	for(unsigned int i=0;i<j.size();i++)
 	{
 		cout <<i+1<<".-";
 		cout << j[i] << endl;
@@ -165,7 +165,7 @@ void Jugar(vector <Juego> &j, vector <Partida> &partida, vector <PAhorcado> &p1,
 		//Para linux: system("clear"); 
 		resultado=system(j[opcion].getEjecutable().c_str());
 
-		for(int i=0;i<p1.size();i++)
+		for(unsigned int i=0;i<p1.size();i++)
 		{
 			if((p1[i].getJugador().compare(p.getnick()))==0)
 			{
@@ -194,7 +194,7 @@ void Jugar(vector <Juego> &j, vector <Partida> &partida, vector <PAhorcado> &p1,
 		//Para linux: system("clear"); 
 		resultado=system(j[opcion].getEjecutable().c_str());
 		existe=false;
-		for(int i=0;i<p2.size();i++)
+		for(unsigned int i=0;i<p2.size();i++)
 		{
 			if((p2[i].getJugador().compare(p.getnick()))==0)
 			{
@@ -221,7 +221,7 @@ void Jugar(vector <Juego> &j, vector <Partida> &partida, vector <PAhorcado> &p1,
 		system("cls");
 		//Para linux: system("clear"); 
 		system(j[opcion].getEjecutable().c_str());
-		for(int i=0;i<partida.size();i++)
+		for(unsigned int i=0;i<partida.size();i++)
 		{
 			if((partida[i].getJugador().compare(p.getnick()))==0)
 			{
@@ -279,7 +279,7 @@ void Estadisticas(vector <PAhorcado> &p1, vector <PCalc> &p2)
          {
          cout <<"Has elegido mostrar las estadisticas del ahorcado, se ordenaran por partidas ganadas:" << endl;
          OrdenarAhorcadoPorPGanadas(p1);
-         for(int i=0;i<p1.size();i++)
+         for(unsigned int i=0;i<p1.size();i++)
          {
              cout<< i+1<< ".-"<< endl;
             cout << p1[i] << endl;
@@ -296,7 +296,7 @@ void Estadisticas(vector <PAhorcado> &p1, vector <PCalc> &p2)
          {
          cout <<"Has elegido mostrar las estadisticas de la calculadora humana, se ordenaran por puntuacion maxima:" << endl;
         OrdenarCalculadoraPorPuntMax(p2);
-        for(int i=0;i<p2.size();i++)
+        for(unsigned int i=0;i<p2.size();i++)
          {
              cout <<i+1<<".-"<< endl;
             cout << p2[i] << endl;
@@ -311,9 +311,7 @@ void SubirJuego(vector <Juego> &j,  Persona &p, GestorBD &db)
 {
 	Juego ju;
 	bool bienhecho;
-	bool posible;
 	bool existe;
-	int i;
 	fstream f;
 	cout <<"Has decidido subir un juego."<< endl;
 	do
@@ -323,7 +321,7 @@ void SubirJuego(vector <Juego> &j,  Persona &p, GestorBD &db)
 
 		ju.setNombre(LeerValor(1,14));
 
-		for(int i=0;j.size()>i;i++)
+		for(unsigned int i=0;j.size()>i;i++)
 		{
 			if((ju.getNombre().compare(j[i].getNombre()))==0)
 			{
@@ -346,7 +344,7 @@ void SubirJuego(vector <Juego> &j,  Persona &p, GestorBD &db)
 		bienhecho=true;
 		cout <<"El ejecutable del juego es:"<< endl;
 		ju.setEjecutable(LeerValor(0,40));
-		for(int i=0;j.size()>i;i++)
+		for(unsigned int i=0;j.size()>i;i++)
 		{
 			if(ju.getEjecutable().compare(j[i].getEjecutable())==0)
 			{
@@ -383,7 +381,7 @@ void GestionAplicacion(vector <Juego> &j,GestorBD &db )
  		else
  		{
  			cout <<"Has decidido borrar un juego de la plataforma, elige un numero de la lista:"<< endl;
- 			for(int i=0;i<j.size();i++)
+ 			for(unsigned int i=0;i<j.size();i++)
 			{
 				cout <<i+1<<".-";
 				cout << j[i] << endl;
@@ -405,7 +403,7 @@ void GestionAplicacion(vector <Juego> &j,GestorBD &db )
  		else
  		{
  			cout << "Has decidido bloquear/desbloquear un usuario de la plataforma, elige un numero de la lista:"<< endl;
- 			for(int i=0;i<us.size();i++)
+ 			for(unsigned int i=0;i<us.size();i++)
 			{
 				cout <<i+1<<".-";
 				cout << us[i] << endl;

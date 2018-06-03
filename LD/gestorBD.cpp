@@ -36,23 +36,7 @@ GestorBD::GestorBD(string dbFile)
   }
   
   GestorBD::~GestorBD() {
-    int result = sqlite3_close(db);
-  }
-
-  int GestorBD::dropTable() 
-  {
-    sqlite3_stmt *stmt;
-
-    char sql[] = "DROP TABLE IF EXISTS usuario;";
-    int result = sqlite3_exec(db, sql, 0, 0, NULL);
-
-    if (result != SQLITE_OK) {
-      std::cout << "Error executing DROP" << std::endl;      
-      std::cout << sqlite3_errmsg(db) << std::endl;
-      return result;
-    }
-
-    return SQLITE_OK;
+    sqlite3_close(db);
   }
 
   vector <Usuario> GestorBD::returnUsuarios()
@@ -75,7 +59,6 @@ GestorBD::GestorBD(string dbFile)
     char nombre[100];
     char apellido[100];
     int edad;
-    bool bloq;
 
     do {
       result = sqlite3_step(stmt);
