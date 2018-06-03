@@ -1,6 +1,7 @@
 #ifndef _PARTIDA_H_
 #define _PARTIDA_H_
 #include <string>
+#include <iostream>
 
 using namespace std;
 

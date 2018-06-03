@@ -1,7 +1,11 @@
 #ifndef _USUARIO_H_
 #define _USUARIO_H_
+
 #include <string>
+#include <iostream>
+
 #include "persona.h"
+
 
 class Usuario: public Persona
 {

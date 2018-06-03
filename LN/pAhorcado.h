@@ -1,6 +1,7 @@
 #ifndef _PAHORCADO_H_
 #define _PAHORCADO_H_
 #include "partida.h"
+#include <iostream>
 
 class PAhorcado: public Partida
 {

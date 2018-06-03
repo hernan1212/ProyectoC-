@@ -1,6 +1,5 @@
 #include "usuario.h"
-#include <iostream>
-#include <string>
+
 using namespace std;
 
 Usuario::Usuario(string nick, string contra, string nombre, string apellido, int edad): Persona(nick, contra, nombre, apellido, edad)

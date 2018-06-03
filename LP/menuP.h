@@ -1,19 +1,23 @@
 #ifndef _MENUP_H_
 #define _MENUP_H_
 
-#include "persona.h"
-#include "administrador.h"
-#include "usuario.h"
 #include "iniReg.h"
-#include "partida.h"
-#include "juego.h"
-#include "pAhorcado.h"
-#include "pCalc.h"
+#include "../LD/gestorBD.h"
+#include "../LN/persona.h"
+#include "../LN/administrador.h"
+#include "../LN/usuario.h"
+#include "../LN/partida.h"
+#include "../LN/juego.h"
+#include "../LN/pAhorcado.h"
+#include "../LN/pCalc.h"
 
+#include <fstream>
+#include <iostream>
+#include <string>
 #include <vector>
 
-int MenuU(Usuario u);
-int MenuA(Administrador a);
+int MenuU(Usuario u, GestorBD db);
+int MenuA(Administrador a, GestorBD db);
 void ListaJuegos(vector <Juego> j, int control1);
 int Jugar(vector <Juego> j,vector <PAhorcado> p1, vector <PCalc> p2, Persona p, int control1, int control2, int control3);
 void PerfilU(Usuario u);

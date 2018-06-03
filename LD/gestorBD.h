@@ -1,14 +1,18 @@
 #ifndef _GESTORBD_H_
 #define _GESTORBD_H_
 
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
 #include <string>
 #include <vector>
-#include "../usuario.h"
-#include "../administrador.h"
-#include "../juego.h"
-#include "../partida.h"
-#include "../pAhorcado.h"
-#include "../pCalc.h"
+
+#include "../LN/usuario.h"
+#include "../LN/administrador.h"
+#include "../LN/juego.h"
+#include "../LN/partida.h"
+#include "../LN/pAhorcado.h"
+#include "../LN/pCalc.h"
 #include "sqlite3.h"
 
 using namespace std;

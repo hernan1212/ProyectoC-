@@ -1,14 +1,10 @@
-using namespace std;
-
-#include <fstream>
-#include <iostream>
-#include <string>
 #include "menuP.h"
 
-//#include "ControlDatos.h"
+using namespace std;
+
 //#include "operaciones.h"
 
-int MenuU(Usuario u)
+int MenuU(Usuario u, GestorBD db)
 {
 	int opcion;
 	int control;
@@ -68,7 +64,7 @@ int MenuU(Usuario u)
 	}while(true);
 }
 
-int MenuA(Administrador a)
+int MenuA(Administrador a, GestorBD db)
 {
 	int opcion;
 	int control;

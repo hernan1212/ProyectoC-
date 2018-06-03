@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "pAhorcado.h"
 
 PAhorcado::PAhorcado(string JugadorNick, string jName, int PartidasJugadas, int PartidasGanadas):Partida(JugadorNick, jName, PartidasJugadas)

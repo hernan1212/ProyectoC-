@@ -1,14 +1,5 @@
 using namespace std;
 #include "iniReg.h"
-//#include "ControlDatos.h"
-#include "menuP.h"
-#include "persona.h"
-#include "administrador.h"
-#include "usuario.h"
-#include <iostream>
-#include <vector>
-#include <string>
-#include <stdexcept>
 
 
 
@@ -19,10 +10,11 @@ int IniciarSesion()
 	vector <Administrador> admins;
 	Persona pers;
 
-Usuario userspr ("a","a","a","a",3) ;
-Administrador adminspr ("a","a","a","a",3, "aaaaaa");
-users.push_back(userspr);
-admins.push_back(adminspr);
+	GestorBD db("LD/test.sqlite");
+
+
+	users=db.returnUsuarios();
+	admins=db.returnAdministradores();
 
 	cout << "Has decidido iniciar sesion," << endl;
 
@@ -35,11 +27,6 @@ admins.push_back(adminspr);
 	pers.setcontra(aux);
 
 
-
-
-	//users=LeerUsuariosBin(&control1);
-	//admins=LeerAdministradoresBin(&control2);
-
 	for(int i=0;users.size()>i;i++)
 	{
 		if((users[i].getnick().compare(pers.getnick()))==0&&(users[i].getcontra().compare(pers.getcontra()))==0)
@@ -49,7 +36,7 @@ admins.push_back(adminspr);
 				cout << "Lo siento, ha sido bloqueado indefinidamente." << endl;
 				return 0;
 			}
-			return MenuU(users[i]);
+			return MenuU(users[i], db);
 			cout<< "funsiona papu!!";
 		}
 	}
@@ -58,7 +45,7 @@ admins.push_back(adminspr);
 		if((admins[i].getnick().compare(pers.getnick()))==0&&(admins[i].getcontra().compare(pers.getcontra()))==0)
 		{
 			
-			return MenuA(admins[i]);
+			return MenuA(admins[i], db);
 		}
 	}
 	
@@ -70,20 +57,15 @@ int Registrar()
 {
 	vector <Usuario> users;
 	vector <Administrador> admins;
-	Persona pers("per","a","a","a",1);
+	GestorBD db("LD/test.sqlite");
 
 	int opcionRegistro;
 	bool bienhecho;
 	
 
-	Usuario auxusu("usu","a","a","a",3) ;
-	Administrador auxadmin ("adm","a","a","a",3, "aaaaaa");
-	
-	users.push_back(auxusu);
-	admins.push_back(auxadmin);
 
-	//users=LeerUsuariosBin(&control1);
-	//admins=LeerAdministradoresBin(&control2);
+	users=db.returnUsuarios();
+	admins=db.returnAdministradores();
 
 
 	cout << "Has decidido registrarte," <<endl;
@@ -134,10 +116,10 @@ int Registrar()
 		usu.setedad(LeerValorInt(1,100));
 		usu.setbloq(false);
 
-		users.push_back(usu);
 
-		//escribirUsuariosBin(users,control1+1);
-		return MenuU(usu);
+		db.insertNewUser(usu.getnick(),usu.getcontra(),usu.getnombre(),usu.getapellido(),usu.getedad());
+
+		return MenuU(usu, db);
 	}
 	else if(opcionRegistro)
 	{
@@ -197,10 +179,9 @@ int Registrar()
 			}
 		}while(bienhecho==false);
 
-		admins.push_back(admin);
 
-		//escribirAdministradoresBin(admins,control2+1);
-		return MenuA(admin);
+		db.insertNewAdmins(admin.getnick(),admin.getcontra(),admin.getnombre(),admin.getapellido(),admin.getedad(),admin.getcod());
+		return MenuA(admin,db);
 	}
 }
 

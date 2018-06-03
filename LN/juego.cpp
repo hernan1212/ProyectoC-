@@ -1,6 +1,6 @@
-#include <iostream>
+
 #include "juego.h"
-#include "persona.h"
+
 
 using namespace std;
 

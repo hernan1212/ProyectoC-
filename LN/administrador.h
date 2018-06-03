@@ -1,5 +1,6 @@
 #ifndef _ADMINISTRADOR_H_
 #define _ADMINISTRADOR_H_
+#include <iostream>
 #include <string>
 #include "persona.h"
 

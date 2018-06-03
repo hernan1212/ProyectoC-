@@ -1,8 +1,11 @@
 #ifndef _JUEGO_H_
 #define _JUEGO_H_
 
+#include <iostream>
 #include <string>
 #include "persona.h"
+
+
 
 class Juego
 {

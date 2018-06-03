@@ -1,8 +1,4 @@
-#include <iostream>
-#include <stdio.h>
-#include <string.h>
-#include <string>
-#include <vector>
+
 #include "GestorBD.h"
 
 GestorBD::GestorBD(string dbFile) 

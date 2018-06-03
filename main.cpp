@@ -1,8 +1,10 @@
 #include <iostream>
+
+#include "LN/persona.h"
+#include "LN/juego.h"
+#include "LP/iniReg.h"
+
 using namespace std;
-#include "persona.h"
-#include "juego.h"
-#include "iniReg.h"
 
 int main(void)
 {

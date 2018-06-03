@@ -1,4 +1,4 @@
-#include <iostream>
+
 #include "pCalc.h"
 
 PCalc::PCalc(string JugadorNick, string jName, int PartidasJugadas, int PuntMax):Partida(JugadorNick, jName, PartidasJugadas)

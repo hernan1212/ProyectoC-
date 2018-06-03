@@ -1,6 +1,5 @@
 #include "administrador.h"
-#include <iostream>
-#include <string>
+
 using namespace std;
 
 Administrador::Administrador(string nick, string contra, string nombre, string apellido, int edad, string cod_administrador): Persona(nick, contra, nombre, apellido, edad)

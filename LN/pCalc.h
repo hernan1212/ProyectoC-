@@ -1,6 +1,7 @@
 #ifndef _PCALC_H_
 #define _PCALC_H_
 #include "partida.h"
+#include <iostream>
 
 class PCalc: public Partida
 {
