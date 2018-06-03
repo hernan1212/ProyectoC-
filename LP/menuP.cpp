@@ -127,7 +127,7 @@ int MenuA(Administrador a, GestorBD &db)
 				control=SubirJuego(juegos, a, control, db);
 				break;	
 			case 6:
-				GestionAplicacion(juegos, control,db);
+				GestionAplicacion(juegos,db);
 				juegos=db.returnJuegos();
 				break;			
 			case 7:
@@ -146,12 +146,6 @@ int MenuA(Administrador a, GestorBD &db)
 
 void ListaJuegos(vector <Juego> j, int control1)
 {
-
-	for(int i=0;i<control1;i++)
- 		{
- 			cout <<i+1<<".-";
-			cout << j[i] << endl;
- 		}
 
 	int opcion;
 	if(control1==0)
@@ -403,7 +397,7 @@ int SubirJuego(vector <Juego> j,  Persona p, int control1, GestorBD &db)
 	return control1+1;
 }
 
-void GestionAplicacion(vector <Juego> j, int control1,GestorBD &db )
+void GestionAplicacion(vector <Juego> j,GestorBD &db )
 {
 	int opcion;
 	cout <<"Cual de las opciones de administrador quiere ejecutar:\n 1.-Eliminar juegos de la plataforma.\n 2.-Bloquear/Desbloquear usuarios de la plataforma."<< endl;
@@ -411,64 +405,45 @@ void GestionAplicacion(vector <Juego> j, int control1,GestorBD &db )
 
  	if(opcion==1)
  	{ 
- 		if(control1==0)
+ 		if(j.size()==0)
  		{
  			cout <<"No hay juegos registrados en la plataforma."<< endl;
  		}
  		else
  		{
  			cout <<"Has decidido borrar un juego de la plataforma, elige un numero de la lista:"<< endl;
- 			for(int i=0;i<control1;i++)
+ 			for(int i=0;i<j.size();i++)
 			{
 				cout <<i+1<<".-";
 				cout << j[i] << endl;
 			}
-			opcion=LeerValorInt(1,control1);
+			opcion=LeerValorInt(1,j.size());
  			opcion--;
- 			for(int i=0;i<(control1-1);i++)
- 			{
- 				if(i >= opcion)
- 				{
- 					j[i]=j[i+1];
- 				}
- 				else
- 				{
- 					j[i]=j[i];
- 				}
- 			}
- 			//escribirJuegosBin(j, control1-1);
+ 			db.deleteJuego(j[opcion].getNombre());
  		}
  		
 
  	}
  	else
  	{
- 	
+
+
  		vector <Usuario> us;
- 		int control2;
  		us=db.returnUsuarios();
 
- 		if(control2==0)
+ 		if(us.size()==0)
  		{
  			cout <<"No hay usuarios registrados en la plataforma."<< endl;
  		}
  		else
  		{
  			cout << "Has decidido bloquear/desbloquear un usuario de la plataforma, elige un numero de la lista:"<< endl;
- 			for(int i=0;i<control2;i++)
+ 			for(int i=0;i<us.size();i++)
 			{
 				cout <<i+1<<".-";
 				cout << us[i] << endl;
 			}
-			opcion=LeerValorInt(1,control1);
-			{
-   				cout <<"Error! No es un numero o no es un numero adecuado!\n Vuleva a introducir una opcion, eligiendo un numero de la lista:"<< endl;
-   				for(int i=0;i<control2;i++)
-				{
-					cout <<i+1<<".-";
-					cout << us[i] << endl;
-				}
- 			}
+			opcion=LeerValorInt(1,us.size());
  			opcion--;
  			if(us[opcion].getbloq()==true)
  			{
@@ -478,7 +453,8 @@ void GestionAplicacion(vector <Juego> j, int control1,GestorBD &db )
  			{
  				us[opcion].setbloq(true);
  			}
- 			//escribirUsuariosBin(us, control2);
+ 			db.deleteUsuario(us[opcion].getnick());
+ 			db.insertNewUser(us[opcion].getnick(),us[opcion].getcontra(),us[opcion].getnombre(),us[opcion].getapellido(),us[opcion].getedad(),us[opcion].getbloq());
  		
  		}
  	}

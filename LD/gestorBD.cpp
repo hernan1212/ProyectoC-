@@ -358,9 +358,9 @@ GestorBD::GestorBD(string dbFile)
   int GestorBD::deleteJuego(string nombre) {
     sqlite3_stmt *stmt;
 
-    const char *sql= ("delete from juego where nombre=\"" + nombre + "\"").c_str();
+    string sql= ("delete from juego where nombre=\"" + nombre + "\"").c_str();
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (DELETE)" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;
@@ -388,9 +388,9 @@ GestorBD::GestorBD(string dbFile)
   {
    sqlite3_stmt *stmt;
 
-    const char *sql= ("delete from usuario where nick=\"" + nick + "\"").c_str();
+    string sql= ("delete from usuario where nick=\"" + nick + "\"").c_str();
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (DELETE)" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;
@@ -417,9 +417,9 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
-    const char *sql= ("delete from partida where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+ string sql= ("delete from partida where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (DELETE)" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;
@@ -446,9 +446,9 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
-    const char *sql= ("delete from pAhorcado where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+    string sql= ("delete from pAhorcado where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (DELETE)" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;
@@ -475,9 +475,9 @@ GestorBD::GestorBD(string dbFile)
   {
     sqlite3_stmt *stmt;
 
-    const char *sql= ("delete from pCalc where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
+    string sql= ("delete from pCalc where nombre=\"" + nombre + "\" &&  nick=\"" + nick + "\"").c_str();
 
-    int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
+    int result = sqlite3_prepare_v2(db, sql.c_str(), -1, &stmt, NULL) ;
     if (result != SQLITE_OK) {
       std::cout << "Error preparing statement (DELETE)" << std::endl;
       std::cout << sqlite3_errmsg(db) << std::endl;

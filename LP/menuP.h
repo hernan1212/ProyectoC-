@@ -25,6 +25,6 @@ void PerfilU(Usuario u);
 void PerfilA(Administrador a);
 //void Estadisticas(pAhorcado* p1, pCalc * p2, int control1, int control2);
 int SubirJuego(vector <Juego> j, Persona p, int control1,GestorBD &db);
-void GestionAplicacion(vector <Juego> j, int control1, GestorBD &db);
+void GestionAplicacion(vector <Juego> j,GestorBD &db);
 bool  is_file_exist(const char *fileName);
 #endif
